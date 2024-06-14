@@ -1,0 +1,16 @@
+Common;Comun;Latin
+Dwarvish;Enano;Dethek
+Elvish;Elfico;Tengwar
+Giant;Gigante;Dwarvish Runes
+Gnomish;Gnomico;Dwarvish Runes
+Goblin;Goblin;Dwarvish Runes
+Halfling;Mediano;Common
+Orc;Orco;Dethek 
+Abyssal;Abyssal;Infernal Script
+Celestial;Celestial;Celestial Script
+Draconic;Draconico;Iokharic
+Deep Speech;Habla Profunda;None
+Infernal;Infernal;Infernal Script
+Primordial;Primordial;Dwarvish Runes
+Sylvan;Sylvano;Elvish Script
+Undercommon;Subcomun;Elvish Script

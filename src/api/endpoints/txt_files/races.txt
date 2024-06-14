@@ -1,0 +1,8 @@
+Human;Humano;{"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1};30;False; ;Common
+Elf;Elfo;{"dexterity": 2, "intelligence": 0, "wisdom": 0, "charisma": 0, "strength": 0, "constitution": 0};30;True;60;Elvish,Common
+Dwarf;Enano;{"constitution": 2, "strength": 0, "dexterity": 0, "intelligence": 0, "wisdom": 0, "charisma": 0};25;True;60;Dwarvish,Common
+Halfling;Mediano;{"dexterity": 2, "strength": 0, "constitution": 0, "intelligence": 0, "wisdom": 0, "charisma": 0};25;False; ;Common
+Orc;Orco;{"strength": 2, "constitution": 1, "dexterity": 0, "intelligence": -1, "wisdom": 0, "charisma": 0};30;True;60;Orc,Common
+Gnome;Gnomo;{"intelligence": 2, "dexterity": 0, "constitution": 0, "wisdom": 0, "charisma": 0, "strength": 0};25;True;60;Gnomish,Common
+Dragonborn;Draconido;{"strength": 2, "charisma": 1, "dexterity": 0, "constitution": 0, "intelligence": 0, "wisdom": 0};30;False; ;Draconic,Common
+Tiefling;Tiefling;{"charisma": 2, "intelligence": 1, "strength": 0, "dexterity": 0, "constitution": 0, "wisdom": 0};30;False; ;Infernal,Common

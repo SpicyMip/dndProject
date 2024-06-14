@@ -1,0 +1,12 @@
+Barbarian;Bárbaro;12;{"strength": true, "constitution": true};{"simple_weapons": true, "martial_weapons": true};{"light_armor": true, "medium_armor": true, "shields": true};{"none": true}
+Bard;Bardo;8;{"dexterity": true, "charisma": true};{"simple_weapons": true, "hand_crossbows": true, "longswords": true, "rapiers": true, "shortswords": true};{"light_armor": true};{"musical_instruments": true}
+Cleric;Clérigo;8;{"wisdom": true, "charisma": true};{"simple_weapons": true};{"light_armor": true, "medium_armor": true, "shields": true};{"herbalism_kit": true}
+Druid;Druida;8;{"intelligence": true, "wisdom": true};{"clubs": true, "daggers": true, "darts": true, "javelins": true, "maces": true, "quarterstaffs": true, "scimitars": true, "sickles": true, "slings": true, "spears": true};{"light_armor": true, "medium_armor": true, "shields": true};{"herbalism_kit": true}
+Fighter;Guerrero;10;{"strength": true, "constitution": true};{"all_simple": true, "all_martial": true};{"all_armor": true, "shields": true};{"smith": true}
+Monk;Monje;8;{"strength": true, "dexterity": true};{"simple_weapons": true, "shortswords": true};{"none": true};{"artisan_tools": true}
+Paladin;Paladín;10;{"wisdom": true, "charisma": true};{"all_simple": true, "all_martial": true};{"all_armor": true, "shields": true};{"smith": true}
+Ranger;Explorador;10;{"strength": true, "dexterity": true};{"simple_weapons": true, "martial_weapons": true};{"light_armor": true, "medium_armor": true, "shields": true};{"herbalism_kit": true}
+Rogue;Pícaro;8;{"dexterity": true, "intelligence": true};{"simple_weapons": true, "hand_crossbows": true, "longswords": true, "rapiers": true, "shortswords": true};{"light_armor": true};{"thieves_tools": true}
+Sorcerer;Hechicero;6;{"constitution": true, "charisma": true};{"daggers": true, "darts": true, "slings": true, "quarterstaffs": true, "light_crossbows": true};{"none": true};{"none": true}
+Warlock;Brujo;8;{"wisdom": true, "charisma": true};{"light_armor": true};{"simple_weapons": true};{"none": true}
+Wizard;Mago;6;{"intelligence": true, "wisdom": true};{"daggers": true, "darts": true, "slings": true, "quarterstaffs": true, "light_crossbows": true};{"none": true};{"alchemy": true}
