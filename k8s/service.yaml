@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dnd-project-service
+spec:
+  selector:
+    app: dnd-project
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP # Use LoadBalancer if your cloud provider supports it

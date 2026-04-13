@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dnd-api
+  labels:
+    app: dnd-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dnd-api
+  template:
+    metadata:
+      labels:
+        app: dnd-api
+    spec:
+      containers:
+      - name: dnd-api
+        image: <REPLACE_WITH_YOUR_API_IMAGE> # e.g. registry.example.com/dnd-api:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dnd-api-service
+spec:
+  selector:
+    app: dnd-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

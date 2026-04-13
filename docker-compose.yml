@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: dnd-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=dnduser
+      - POSTGRES_PASSWORD=dndpass
+      - POSTGRES_DB=dnd_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./src/api-go
+      dockerfile: Dockerfile
+    container_name: dnd-api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=dnduser
+      - DB_PASSWORD=dndpass
+      - DB_NAME=dnd_db
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./src/app
+      dockerfile: Dockerfile
+    container_name: dnd-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

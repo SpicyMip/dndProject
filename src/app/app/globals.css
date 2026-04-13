@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 15% 13%;
+    --foreground: 40 20% 90%;
+    --card: 30 15% 18%;
+    --card-foreground: 40 20% 90%;
+    --popover: 220 15% 16%;
+    --popover-foreground: 40 20% 90%;
+    --primary: 155 60% 45%;
+    --primary-foreground: 220 15% 10%;
+    --secondary: 220 12% 20%;
+    --secondary-foreground: 40 20% 85%;
+    --muted: 220 12% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 155 60% 45%;
+    --accent-foreground: 220 15% 10%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 12% 22%;
+    --input: 220 12% 22%;
+    --ring: 155 60% 45%;
+    --chart-1: 155 60% 45%;
+    --chart-2: 270 50% 55%;
+    --chart-3: 35 80% 55%;
+    --chart-4: 200 70% 50%;
+    --chart-5: 340 65% 55%;
+    --radius: 0.5rem;
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 40 20% 85%;
+    --sidebar-primary: 155 60% 45%;
+    --sidebar-primary-foreground: 220 15% 10%;
+    --sidebar-accent: 220 15% 16%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 220 12% 18%;
+    --sidebar-ring: 155 60% 45%;
+    --arcane-glow: 155 60% 45%;
+    --parchment: 35 30% 85%;
+    --parchment-dark: 30 15% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Arcane font styling - uses serif with special tracking for mystical appearance */
+.font-arcane {
+  font-family: var(--font-lora), ui-serif, Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Parchment card texture */
+.parchment-card {
+  background: linear-gradient(
+    135deg,
+    hsl(30 15% 18%) 0%,
+    hsl(30 12% 16%) 50%,
+    hsl(30 15% 17%) 100%
+  );
+}
+
+/* Arcane glow effect */
+.arcane-glow {
+  box-shadow: 0 0 15px -3px hsl(155 60% 45% / 0.3),
+    0 0 6px -4px hsl(155 60% 45% / 0.2);
+}
+
+.arcane-glow-text {
+  text-shadow: 0 0 10px hsl(155 60% 45% / 0.5);
+}
+
+/* Terminal styling */
+.terminal-bg {
+  background: linear-gradient(
+    180deg,
+    hsl(220 20% 8%) 0%,
+    hsl(220 18% 10%) 100%
+  );
+}
+
+/* Scrollbar styling */
+.arcane-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.arcane-scrollbar::-webkit-scrollbar-track {
+  background: hsl(220 15% 13%);
+}
+.arcane-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(220 12% 25%);
+  border-radius: 3px;
+}
+.arcane-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(155 60% 45% / 0.5);
+}
+
+/* Confetti keyframes */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  animation: confetti-fall 3s ease-in-out forwards;
+}
