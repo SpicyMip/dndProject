@@ -1,0 +1,9 @@
+{
+  "name": "dnd-admin-scripts",
+  "version": "1.0.0",
+  "description": "Scripts para administración de Firebase Auth",
+  "main": "manage-users.js",
+  "dependencies": {
+    "firebase-admin": "^11.11.0"
+  }
+}

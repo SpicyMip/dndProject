@@ -34,8 +34,11 @@ Este documento detalla las configuraciones y tareas necesarias para completar la
 
 - [ ] **Actualizar K8s Manifests**: 
     - Los archivos en `/k8s` deben ser actualizados para reflejar la separación del CLI de base de datos y la inclusión de secretos de Firebase.
-- [ ] **Variables de Entorno**: 
-    - Crear un archivo `.env.example` en la raíz con todas las variables necesarias (`DB_HOST`, `DB_USER`, `FIREBASE_PROJECT_ID`, etc.).
+- [ ] **Variables de Entorno y Configuración**: 
+    - Crear archivo `.env.example` con:
+        - **Frontend**: `NEXT_PUBLIC_FIREBASE_API_KEY`, `AUTH_DOMAIN`, `PROJECT_ID`, etc.
+        - **Backend**: `DB_HOST`, `DB_PORT`, `DB_USER`, `FIREBASE_CONFIG_PATH`, etc.
+    - Asegurar que todos los archivos `.env` y el `serviceAccountKey.json` estén en el `.gitignore`.
 - [ ] **Logs y Observabilidad**: 
     - Implementar un logger estructurado (como `zap` o `zerolog`) en el backend para rastrear errores de base de datos o intentos de acceso fallidos.
 
@@ -46,6 +49,22 @@ Este documento detalla las configuraciones y tareas necesarias para completar la
 - [ ] **Lanzador de Dados**: Componente interactivo en el frontend para lanzamientos 1d20, 1d12, etc.
 - [ ] **Editor de Personajes**: Interfaz en `/admin` para que el DM pueda editar HP o Inventario de los jugadores en tiempo real.
 - [ ] **Bestiario Dinámico**: Permitir que el DM suba imágenes de los monstruos (integración con Firebase Storage).
+
+---
+
+## 🎨 5. Interfaz de Usuario y Tablón de Anuncios
+
+- [ ] **Tablón de Anuncios (Frontend)**: 
+    - Implementar lógica para posicionamiento aleatorio (`x`, `y`) y rotación de los anuncios recibidos de la API.
+    - Añadir interruptor en el panel de administración para activar/desactivar anuncios individualmente.
+    - Asegurar que solo se visualicen en el tablón público los anuncios con `active: true`.
+
+---
+
+*Documento generado el 13 de abril de 2026.*
+`, `y`) y rotación de los anuncios recibidos de la API.
+    - Añadir interruptor en el panel de administración para activar/desactivar anuncios individualmente.
+    - Asegurar que solo se visualicen en el tablón público los anuncios con `active: true`.
 
 ---
 

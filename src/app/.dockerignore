@@ -6,5 +6,4 @@ build
 .gitignore
 .dockerignore
 Dockerfile
-pnpm-lock.yaml
 README.md
