@@ -205,7 +205,16 @@
     },
     "notice_types": {
       "mission": "Mission", "ad": "Ad", "news": "News"
-    }
+    },
+    "unassign": "Unassign",
+    "transfer": "Transfer",
+    "unassign_confirm": "Return this item to the Archive Vault?",
+    "transfer_title": "Transfer Item",
+    "item_unassigned": "Item returned to vault",
+    "item_transferred": "Item transferred to {name}",
+    "add_action": "Add Action",
+    "action_name": "Action Name",
+    "action_desc": "Description"
   },
   "archive": {
     "title": "My Archive",

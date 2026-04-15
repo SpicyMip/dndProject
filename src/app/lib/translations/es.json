@@ -205,7 +205,16 @@
     },
     "notice_types": {
       "mission": "Misión", "ad": "Anuncio", "news": "Noticia"
-    }
+    },
+    "unassign": "Desvincular",
+    "transfer": "Transferir",
+    "unassign_confirm": "¿Devolver este objeto a la Bóveda de Archivo?",
+    "transfer_title": "Transferir Objeto",
+    "item_unassigned": "Objeto devuelto a la bóveda",
+    "item_transferred": "Objeto transferido a {name}",
+    "add_action": "Añadir Acción",
+    "action_name": "Nombre de la Acción",
+    "action_desc": "Descripción"
   },
   "archive": {
     "title": "Mi Archivo",
