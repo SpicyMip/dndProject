@@ -178,7 +178,34 @@
     "reveal_to_players": "Revelar a Jugadores",
     "revealed_lexicon": "Léxico Revelado",
     "symbols_added": "Símbolos añadidos",
-    "delete_symbols_confirm": "¿Eliminar símbolos?"
+    "delete_symbols_confirm": "¿Eliminar símbolos?",
+    "item_forged": "Objeto forjado en la Bóveda de Archivo",
+    "select_legend_error": "Selecciona una leyenda para recibir este regalo",
+    "item_bestowed": "Objeto otorgado",
+    "destroy_item_confirm": "¿Destruir este objeto de la historia?",
+    "item_erased": "Objeto borrado",
+    "notice_processed": "Anuncio procesado",
+    "delete_notice_confirm": "¿Seguro?",
+    "edit_notice": "Editar Anuncio",
+    "new_notice": "Nuevo Anuncio",
+    "use_tags_help": "Usa <lexicon>TAG</lexicon/> para símbolos arcanos",
+    "initial_state": "Estado Inicial",
+    "visible": "Visible",
+    "use_tags_hint": "Usa etiquetas para enlazar símbolos automáticamente.",
+    "update_notice": "Actualizar Anuncio",
+    "post_notice": "Publicar Anuncio",
+    "manage_board": "Gestionar Tablón",
+    "vault_empty": "La bóveda está en silencio.",
+    "possession_empty": "Nada que llevar",
+    "categories": {
+      "Weapon": "Arma", "Shield": "Escudo", "Armor": "Armadura", "Headwear": "Cabeza", "Trinket": "Abalorio", "Consumable": "Consumible", "Tool": "Herramienta", "Magic Item": "Objeto Mágico", "Misc": "Varios"
+    },
+    "rarities": {
+      "Common": "Común", "Uncommon": "Poco común", "Rare": "Raro", "Very Rare": "Muy raro", "Legendary": "Legendario"
+    },
+    "notice_types": {
+      "mission": "Misión", "ad": "Anuncio", "news": "Noticia"
+    }
   },
   "archive": {
     "title": "Mi Archivo",

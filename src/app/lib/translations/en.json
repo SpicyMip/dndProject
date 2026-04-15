@@ -178,7 +178,34 @@
     "reveal_to_players": "Reveal to Players",
     "revealed_lexicon": "Revealed Lexicon",
     "symbols_added": "Symbols added",
-    "delete_symbols_confirm": "Delete symbols?"
+    "delete_symbols_confirm": "Delete symbols?",
+    "item_forged": "Item forged in Archive Vault",
+    "select_legend_error": "Select a legend to receive this gift",
+    "item_bestowed": "Item bestowed",
+    "destroy_item_confirm": "Destroy this item from history?",
+    "item_erased": "Item erased",
+    "notice_processed": "Notice processed",
+    "delete_notice_confirm": "Sure?",
+    "edit_notice": "Edit Notice",
+    "new_notice": "New Notice",
+    "use_tags_help": "Use <lexicon>TAG</lexicon/> for arcane symbols",
+    "initial_state": "Initial State",
+    "visible": "Visible",
+    "use_tags_hint": "Use tags to link symbols automatically.",
+    "update_notice": "Update Notice",
+    "post_notice": "Post Notice",
+    "manage_board": "Manage Board",
+    "vault_empty": "The vault is silent.",
+    "possession_empty": "Nothing carried",
+    "categories": {
+      "Weapon": "Weapon", "Shield": "Shield", "Armor": "Armor", "Headwear": "Headwear", "Trinket": "Trinket", "Consumable": "Consumable", "Tool": "Tool", "Magic Item": "Magic Item", "Misc": "Misc"
+    },
+    "rarities": {
+      "Common": "Common", "Uncommon": "Uncommon", "Rare": "Rare", "Very Rare": "Very Rare", "Legendary": "Legendary"
+    },
+    "notice_types": {
+      "mission": "Mission", "ad": "Ad", "news": "News"
+    }
   },
   "archive": {
     "title": "My Archive",
