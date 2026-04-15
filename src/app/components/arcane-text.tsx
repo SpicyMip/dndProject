@@ -16,24 +16,22 @@ type TextSegment =
   | { type: "symbol"; symbol: string; translation: string | null }
 
 /**
- * ArcaneText component that scans text for symbol sequences matching the user's Lexicon.
- * - Symbols are rendered in a magic/serif font style
- * - If translated, shows the translation in a smaller monospace font below
- * - If untranslated, shows with dashed underline and subtle "?" indicator
+ * ArcaneText component that scans text for symbol sequences matching the campaign's Lexicon.
+ * - Symbols are rendered in a magic/mono font style
+ * - If the user has deciphered it, shows the translation below
  */
 export function ArcaneText({ children, className, lightMode = false }: ArcaneTextProps) {
-  const { interpretations } = useInterpretations()
+  const { interpretations, words } = useInterpretations()
 
   const segments = useMemo(() => {
-    if (!children || interpretations.length === 0) {
+    if (!children || words.length === 0) {
       return [{ type: "plain" as const, text: children }]
     }
 
-    // Build a regex pattern that matches any known symbol sequence
-    // Sort by length descending to match longer sequences first
-    const sortedSymbols = [...interpretations]
+    // Sort words by length descending to match longer sequences first
+    const sortedSymbols = [...words]
       .sort((a, b) => b.symbolSequence.length - a.symbolSequence.length)
-      .map((i) => i.symbolSequence)
+      .map((w) => w.symbolSequence)
 
     // Escape special regex characters and create pattern
     const escapedPatterns = sortedSymbols.map((s) =>
@@ -53,15 +51,18 @@ export function ArcaneText({ children, className, lightMode = false }: ArcaneTex
       if (!part) continue
 
       // Check if this part matches any symbol (case-insensitive)
-      const matchingInterp = interpretations.find(
-        (i) => i.symbolSequence.toUpperCase() === part.toUpperCase()
+      const matchingWord = words.find(
+        (w) => w.symbolSequence.toUpperCase() === part.toUpperCase()
       )
 
-      if (matchingInterp) {
+      if (matchingWord) {
+        // Look for user interpretation
+        const interpretation = interpretations.find(i => i.wordId === matchingWord.id)
+        
         result.push({
           type: "symbol",
           symbol: part,
-          translation: matchingInterp.userDefinition,
+          translation: interpretation ? interpretation.interpretation : null,
         })
       } else {
         result.push({ type: "plain", text: part })
@@ -69,7 +70,7 @@ export function ArcaneText({ children, className, lightMode = false }: ArcaneTex
     }
 
     return result
-  }, [children, interpretations])
+  }, [children, interpretations, words])
 
   // If no symbols found, just render as plain text
   const hasSymbols = segments.some((s) => s.type === "symbol")
@@ -95,11 +96,11 @@ export function ArcaneText({ children, className, lightMode = false }: ArcaneTex
           >
             <span
               className={cn(
-                "font-arcane tracking-[0.1em] leading-none",
+                "font-mono font-bold tracking-tighter leading-none",
                 lightMode ? "text-emerald-700" : "text-primary",
                 !hasTranslation && (lightMode ? "border-b border-dashed border-amber-700/50" : "border-b border-dashed border-muted-foreground")
               )}
-              title={hasTranslation ? translation : "Unknown symbol - add to Lexicon"}
+              title={hasTranslation ? translation : "Unknown symbol"}
             >
               {symbol}
               {!hasTranslation && (
@@ -118,9 +119,6 @@ export function ArcaneText({ children, className, lightMode = false }: ArcaneTex
   )
 }
 
-/**
- * For use in places where we just want to mark text as arcane without translation lookup
- */
 export function ArcaneSymbol({
   children,
   className,
@@ -131,10 +129,9 @@ export function ArcaneSymbol({
   return (
     <span
       className={cn(
-        "font-arcane text-primary tracking-[0.1em] border-b border-dashed border-muted-foreground",
+        "font-mono text-primary font-bold tracking-tighter border-b border-dashed border-muted-foreground",
         className
       )}
-      title="Unknown symbol - add to Lexicon"
     >
       {children}
       <span className="text-[0.6em] text-muted-foreground ml-0.5 opacity-60">?</span>

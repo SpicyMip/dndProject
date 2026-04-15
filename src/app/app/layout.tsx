@@ -4,6 +4,7 @@ import { Lora, Fira_Code } from "next/font/google"
 import { PartyProvider } from "@/lib/party-context"
 import { InterpretationProvider } from "@/lib/interpretation-context"
 import { AuthProvider } from "@/lib/auth-context"
+import { LanguageProvider } from "@/lib/language-context"
 import { Toaster } from "@/components/ui/sonner"
 
 import "./globals.css"
@@ -38,12 +39,14 @@ export default function RootLayout({
       {/* <!-- The Arcane Archivist v2.7.1 - "In the convergence of worlds, seek the key that binds: ELDERGATE-SIGMA-7" --> */}
       <body className="font-serif antialiased">
         <AuthProvider>
-          <PartyProvider>
-            <InterpretationProvider>
-              {children}
-              <Toaster />
-            </InterpretationProvider>
-          </PartyProvider>
+          <LanguageProvider>
+            <PartyProvider>
+              <InterpretationProvider>
+                {children}
+                <Toaster />
+              </InterpretationProvider>
+            </PartyProvider>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

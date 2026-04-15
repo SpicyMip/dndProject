@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { ArcaneText } from "@/components/arcane-text"
 import { apiFetch } from "@/lib/api"
+import { useTranslation } from "@/lib/language-context"
 
 interface Session {
   id: string
@@ -26,6 +27,7 @@ interface StoryArc {
 }
 
 export function ChronicleSection() {
+  const { t } = useTranslation()
   const [storyArcs, setStoryArcs] = useState<StoryArc[]>([])
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export function ChronicleSection() {
       <div className="flex items-center gap-3">
         <Book className="h-6 w-6 text-primary" />
         <h2 className="text-2xl font-serif font-bold text-foreground">
-          The Chronicles
+          {t("chronicles.title")}
         </h2>
       </div>
 
@@ -62,7 +64,7 @@ export function ChronicleSection() {
                     {arc.title}
                   </h3>
                   <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-                    {arc.sessions.length} Sessions Record
+                    {arc.sessions.length} {t("chronicles.sessions_count")}
                   </p>
                 </div>
               </div>
@@ -82,7 +84,7 @@ export function ChronicleSection() {
                         {session.title}
                       </h4>
                       <Badge variant="outline" className="font-mono text-[10px] uppercase">
-                        Part {idx + 1}
+                        {t("chronicles.part")} {idx + 1}
                       </Badge>
                     </div>
 
@@ -96,7 +98,7 @@ export function ChronicleSection() {
                           <div className="flex items-center gap-2 mb-2 text-primary">
                             <Lock className="h-3 w-3" />
                             <span className="text-[10px] font-mono uppercase font-bold tracking-widest">
-                              Classified Information
+                              {t("chronicles.classified")}
                             </span>
                           </div>
                           <p className="text-xs text-secondary-foreground/60 select-none blur-sm group-hover:blur-none transition-all duration-500">
@@ -106,7 +108,7 @@ export function ChronicleSection() {
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-background/80 border border-border shadow-sm">
                               <Key className="h-3 w-3 text-primary" />
                               <span className="text-[10px] font-mono font-bold uppercase">
-                                Hover to reveal secret
+                                {t("chronicles.reveal")}
                               </span>
                             </div>
                           </div>
