@@ -28,6 +28,8 @@ services:
       - DB_USER=dnduser
       - DB_PASSWORD=dndpass
       - DB_NAME=dnd_db
+      - FIREBASE_CONFIG_PATH=serviceAccountKey.json
+      - FIREBASE_PROJECT_ID=dnd-proyect-69a4e
     depends_on:
       - db
 

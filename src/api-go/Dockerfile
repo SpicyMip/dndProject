@@ -1,5 +1,5 @@
 # Stage 1: Build the binary
-FROM golang:1.21-alpine AS builder
+FROM golang:1.25-alpine AS builder
 WORKDIR /app
 
 # Install build dependencies
@@ -22,6 +22,8 @@ RUN apk add --no-cache ca-certificates
 
 # Copy the binary from the builder
 COPY --from=builder /app/dnd-api .
+# Copy the service account key if it exists
+COPY --from=builder /app/serviceAccountKey.json* ./
 
 EXPOSE 8080
 
