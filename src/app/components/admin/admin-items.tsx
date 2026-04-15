@@ -58,6 +58,7 @@ export function AdminItems() {
   const [bestowCharId, setBestowCharId] = useState<number | "">("")
   const [transferCharId, setTransferCharId] = useState<number | "">("")
   const [transferringItemId, setTransferringItemId] = useState<number | null>(null)
+  const [editingItemId, setEditingItemId] = useState<number | null>(null)
   
   const initialForm = { 
     name: "", 
@@ -111,21 +112,58 @@ export function AdminItems() {
     setSpecialActionsArr(specialActionsArr.filter((_, i) => i !== index))
   }
 
+  const startEdit = (item: any) => {
+    setEditingItemId(item.id)
+    setFormData({
+      name: item.name || "",
+      description: item.description || "",
+      quantity: item.quantity || 1,
+      category: item.category || "Misc",
+      rarity: item.rarity || "Common",
+      isEquippable: item.isEquippable || false,
+      isUsable: item.isUsable || false,
+      weight: item.weight || 0,
+      properties: item.properties || "",
+      damage: item.damage || "",
+      damageType: item.damageType || "",
+      acBonus: item.acBonus || 0,
+      requirements: item.requirements || "",
+      charges: item.charges || 0,
+      specialActions: item.specialActions || "[]"
+    })
+    try {
+      setSpecialActionsArr(JSON.parse(item.specialActions || "[]"))
+    } catch {
+      setSpecialActionsArr([])
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const cancelEdit = () => {
+    setEditingItemId(null)
+    setFormData(initialForm)
+    setSpecialActionsArr([])
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const payload = {
       ...formData,
       specialActions: JSON.stringify(specialActionsArr)
     }
-    apiFetch("/characters/global", { 
-      method: "POST", 
+
+    const url = editingItemId ? `/characters/items/${editingItemId}` : "/characters/global"
+    const method = editingItemId ? "PATCH" : "POST"
+
+    apiFetch(url, { 
+      method, 
       body: JSON.stringify(payload) 
     })
       .then(() => { 
-        toast.success(t("admin.item_forged"))
-        setFormData(initialForm)
-        setSpecialActionsArr([])
+        toast.success(editingItemId ? t("profile.updated") : t("admin.item_forged"))
+        cancelEdit()
         fetchLibrary()
+        fetchCharacters()
       })
   }
 
@@ -186,7 +224,7 @@ export function AdminItems() {
       <Card className="xl:col-span-2 h-fit">
         <CardHeader>
           <CardTitle className="font-serif flex items-center gap-2">
-            <Plus className="h-5 w-5 text-primary" /> {t("admin.item_forge")}
+            <Plus className="h-5 w-5 text-primary" /> {editingItemId ? t("admin.edit") : t("admin.item_forge")}
           </CardTitle>
           <CardDescription>{t("admin.forge_subtitle")}</CardDescription>
         </CardHeader>
@@ -291,9 +329,16 @@ export function AdminItems() {
               </label>
             </div>
 
-            <Button type="submit" className="w-full h-12 gap-2 font-serif text-lg">
-              <Save className="h-5 w-5" /> {t("admin.item_forge")}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="submit" className="flex-1 h-12 gap-2 font-serif text-lg">
+                <Save className="h-5 w-5" /> {editingItemId ? t("common.save") : t("admin.item_forge")}
+              </Button>
+              {editingItemId && (
+                <Button type="button" variant="ghost" onClick={cancelEdit} className="h-12 uppercase text-xs">
+                  {t("common.cancel")}
+                </Button>
+              )}
+            </div>
           </form>
         </CardContent>
       </Card>
@@ -332,6 +377,9 @@ export function AdminItems() {
                   <div className="flex gap-1">
                     <Button size="icon" variant="ghost" className="h-7 w-7 text-primary hover:bg-primary/20" onClick={() => bestowItem(item.id)} title="Bestow">
                       <Check className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-primary" onClick={() => startEdit(item)} title={t("common.edit")}>
+                      <Pencil className="h-3.5 w-3.5" />
                     </Button>
                     <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive opacity-0 group-hover:opacity-100" onClick={() => deleteItem(item.id)}>
                       <Trash2 className="h-3.5 w-3.5" />
