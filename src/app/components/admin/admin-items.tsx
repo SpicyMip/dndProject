@@ -55,6 +55,8 @@ export function AdminItems() {
   const [library, setLibrary] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [bestowCharId, setBestowCharId] = useState<number | "">("")
+  const [transferCharId, setTransferCharId] = useState<number | "">("")
+  const [transferringItemId, setTransferringItemId] = useState<number | null>(null)
   
   const initialForm = { 
     name: "", 
@@ -65,10 +67,17 @@ export function AdminItems() {
     isEquippable: false, 
     isUsable: false, 
     weight: 0, 
-    properties: "" 
+    properties: "",
+    damage: "",
+    damageType: "",
+    acBonus: 0,
+    requirements: "",
+    charges: 0,
+    specialActions: "[]"
   }
   
   const [formData, setFormData] = useState(initialForm)
+  const [specialActionsArr, setSpecialActionsArr] = useState<{name: string, desc: string}[]>([])
 
   useEffect(() => { 
     fetchCharacters()
@@ -87,15 +96,34 @@ export function AdminItems() {
       .then(data => setLibrary(data.items || []))
   }
 
+  const addSpecialAction = () => {
+    setSpecialActionsArr([...specialActionsArr, { name: "", desc: "" }])
+  }
+
+  const updateSpecialAction = (index: number, field: string, value: string) => {
+    const newArr = [...specialActionsArr]
+    newArr[index] = { ...newArr[index], [field]: value }
+    setSpecialActionsArr(newArr)
+  }
+
+  const removeSpecialAction = (index: number) => {
+    setSpecialActionsArr(specialActionsArr.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const payload = {
+      ...formData,
+      specialActions: JSON.stringify(specialActionsArr)
+    }
     apiFetch("/characters/global", { 
       method: "POST", 
-      body: JSON.stringify(formData) 
+      body: JSON.stringify(payload) 
     })
       .then(() => { 
         toast.success(t("admin.item_forged"))
         setFormData(initialForm)
+        setSpecialActionsArr([])
         fetchLibrary()
       })
   }
@@ -111,6 +139,31 @@ export function AdminItems() {
       body: JSON.stringify({ characterId: bestowCharId })
     }).then(() => {
       toast.success(t("admin.item_bestowed"))
+      fetchLibrary()
+      fetchCharacters()
+    })
+  }
+
+  const unassignItem = (itemId: number) => {
+    if (!confirm(t("admin.unassign_confirm"))) return
+    apiFetch(`/characters/items/${itemId}/unassign`, { method: "POST" })
+      .then(() => {
+        toast.success(t("admin.item_unassigned"))
+        fetchLibrary()
+        fetchCharacters()
+      })
+  }
+
+  const transferItem = (itemId: number) => {
+    if (!transferCharId) return
+    apiFetch(`/characters/items/${itemId}/transfer`, { 
+      method: "POST", 
+      body: JSON.stringify({ characterId: transferCharId }) 
+    }).then(() => {
+      const charName = characters.find(c => c.id === transferCharId)?.name || "Legend"
+      toast.success(t("admin.item_transferred", { name: charName }))
+      setTransferringItemId(null)
+      setTransferCharId("")
       fetchLibrary()
       fetchCharacters()
     })
@@ -158,9 +211,72 @@ export function AdminItems() {
               </div>
             </div>
 
+            {/* Dynamic Technical Fields */}
+            <div className="grid grid-cols-2 gap-4 p-3 bg-secondary/10 rounded-lg border border-border">
+              {formData.category === "Weapon" && (
+                <>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] uppercase opacity-70">{t("party.damage")}</Label>
+                    <Input value={formData.damage} onChange={e => setFormData({...formData, damage: e.target.value})} placeholder="1d8" className="h-8 text-xs" />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] uppercase opacity-70">{t("party.damage_type")}</Label>
+                    <Input value={formData.damageType} onChange={e => setFormData({...formData, damageType: e.target.value})} placeholder="Slashing" className="h-8 text-xs" />
+                  </div>
+                </>
+              )}
+              {formData.category === "Armor" && (
+                <div className="space-y-1">
+                  <Label className="text-[10px] uppercase opacity-70">{t("party.ac_bonus")}</Label>
+                  <Input type="number" value={formData.acBonus} onChange={e => setFormData({...formData, acBonus: parseInt(e.target.value) || 0})} className="h-8 text-xs" />
+                </div>
+              )}
+              {(formData.category === "Consumable" || formData.category === "Magic Item") && (
+                <div className="space-y-1">
+                  <Label className="text-[10px] uppercase opacity-70">{t("party.charges")}</Label>
+                  <Input type="number" value={formData.charges} onChange={e => setFormData({...formData, charges: parseInt(e.target.value) || 0})} className="h-8 text-xs" />
+                </div>
+              )}
+              <div className="space-y-1 col-span-2">
+                <Label className="text-[10px] uppercase opacity-70">{t("party.requirements")}</Label>
+                <Input value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} placeholder="Str 13, attunement..." className="h-8 text-xs" />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label>{t("admin.item_properties")}</Label>
-              <Input value={formData.properties} onChange={e => setFormData({...formData, properties: e.target.value})} placeholder="Damage, AC, effects..." />
+              <Input value={formData.properties} onChange={e => setFormData({...formData, properties: e.target.value})} placeholder="Finesse, Light, Heavy..." />
+            </div>
+
+            {/* Special Actions Constructor */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs font-serif">{t("party.special_actions")}</Label>
+                <Button type="button" variant="outline" size="sm" onClick={addSpecialAction} className="h-6 text-[10px]">
+                  <Plus className="mr-1 h-3 w-3" /> {t("admin.add_action")}
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {specialActionsArr.map((action, idx) => (
+                  <div key={idx} className="p-2 border rounded bg-black/20 relative group">
+                    <Button type="button" variant="ghost" size="icon" onClick={() => removeSpecialAction(idx)} className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-destructive text-white opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <X className="h-3 w-3" />
+                    </Button>
+                    <Input 
+                      value={action.name} 
+                      onChange={e => updateSpecialAction(idx, "name", e.target.value)} 
+                      placeholder={t("admin.action_name")}
+                      className="h-7 text-xs mb-1 bg-transparent border-none focus-visible:ring-0 font-bold"
+                    />
+                    <Textarea 
+                      value={action.desc} 
+                      onChange={e => updateSpecialAction(idx, "desc", e.target.value)} 
+                      placeholder={t("admin.action_desc")}
+                      className="h-16 text-[10px] bg-transparent border-none focus-visible:ring-0 resize-none"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="flex gap-4 p-3 bg-primary/5 rounded-lg border border-primary/10">
@@ -244,11 +360,33 @@ export function AdminItems() {
                   {char.personalItems?.length === 0 ? (
                     <p className="text-[9px] text-muted-foreground italic pl-5 opacity-30">{t("admin.possession_empty")}</p>
                   ) : char.personalItems.map((item: any) => (
-                    <div key={item.id} className="flex items-center justify-between p-1.5 hover:bg-secondary/10 rounded transition-colors group">
-                      <span className={cn("text-[10px] truncate max-w-[120px]", rarityColors[item.rarity])}>{item.name}</span>
-                      <Button variant="ghost" size="icon" className="h-5 w-5 opacity-0 group-hover:opacity-100 text-destructive" onClick={() => deleteItem(item.id)}>
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
+                    <div key={item.id} className="space-y-1">
+                      <div className="flex items-center justify-between p-1.5 hover:bg-secondary/10 rounded transition-colors group">
+                        <span className={cn("text-[10px] truncate max-w-[120px]", rarityColors[item.rarity])}>{item.name}</span>
+                        <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button variant="ghost" size="icon" className="h-5 w-5 text-primary" onClick={() => setTransferringItemId(transferringItemId === item.id ? null : item.id)} title={t("admin.transfer")}>
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="h-5 w-5 text-amber-500" onClick={() => unassignItem(item.id)} title={t("admin.unassign")}>
+                            <Box className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="h-5 w-5 text-destructive" onClick={() => deleteItem(item.id)} title={t("common.delete")}>
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      {transferringItemId === item.id && (
+                        <div className="p-2 bg-secondary/20 rounded border border-primary/20 flex gap-1 animate-in slide-in-from-top-1">
+                          <select className="flex-1 bg-black/40 border border-primary/10 rounded px-1 text-[10px]" value={transferCharId} onChange={e => setTransferCharId(e.target.value ? parseInt(e.target.value) : "")}>
+                            <option value="">{t("admin.select_recipient")}</option>
+                            {characters.filter(c => c.id !== char.id).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                          </select>
+                          <Button size="sm" className="h-6 px-2 text-[10px]" onClick={() => transferItem(item.id)} disabled={!transferCharId}>
+                            {t("common.confirm")}
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
