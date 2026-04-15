@@ -77,7 +77,13 @@
     "unequip": "Unequip",
     "use": "Use",
     "empty_pockets": "Empty pockets...",
-    "unassigned": "Unassigned items"
+    "unassigned": "Unassigned items",
+    "damage": "Damage",
+    "damage_type": "Type",
+    "ac_bonus": "AC Bonus",
+    "requirements": "Requirements",
+    "charges": "Charges",
+    "special_actions": "Special Actions"
   },
   "bestiary": {
     "title": "Imperial Bestiary",
