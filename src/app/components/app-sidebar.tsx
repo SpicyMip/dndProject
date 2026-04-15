@@ -1,6 +1,6 @@
 "use client"
 
-import { Book, Users, Skull, Terminal, Sparkles, Menu, ClipboardList, BookText } from "lucide-react"
+import { Book, Users, Skull, Terminal, Sparkles, Menu, ClipboardList, BookText, LogOut, ShieldCheck, User as UserIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Sheet,
@@ -10,15 +10,22 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { useAuth } from "@/lib/auth-context"
+import { useTranslation } from "@/lib/language-context"
 
 const navItems = [
-  { id: "chronicle", label: "Chronicle", icon: Book },
-  { id: "pantheon", label: "Pantheon", icon: Sparkles },
-  { id: "bestiary", label: "Bestiary", icon: Skull },
-  { id: "party", label: "Party Status", icon: Users },
-  { id: "notices", label: "Notice Board", icon: ClipboardList },
-  { id: "lexicon", label: "Lexicon", icon: BookText },
-  { id: "terminal", label: "Arcane Terminal", icon: Terminal },
+  { id: "chronicle", labelKey: "sidebar.chronicles", icon: Book },
+  { id: "profile", labelKey: "sidebar.archive", icon: UserIcon },
+  { id: "pantheon", labelKey: "sidebar.pantheon", icon: Sparkles },
+  { id: "bestiary", labelKey: "sidebar.bestiary", icon: Skull },
+  { id: "party", labelKey: "sidebar.party", icon: Users },
+  { id: "notices", labelKey: "sidebar.notices", icon: ClipboardList },
+  { id: "lexicon", labelKey: "sidebar.lexicon", icon: BookText },
+  { id: "terminal", labelKey: "sidebar.terminal", icon: Terminal },
+]
+
+const adminItems = [
+  { id: "admin", labelKey: "sidebar.admin", icon: ShieldCheck },
 ]
 
 interface AppSidebarProps {
@@ -31,6 +38,9 @@ function SidebarNav({
   onNavigate,
   onItemClick,
 }: AppSidebarProps & { onItemClick?: () => void }) {
+  const { isAdmin } = useAuth()
+  const { t } = useTranslation()
+
   return (
     <nav className="flex flex-col gap-1 p-3" role="navigation" aria-label="Campaign sections">
       {navItems.map((item) => {
@@ -55,16 +65,49 @@ function SidebarNav({
               <span className="absolute left-0 top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-r bg-primary" />
             )}
             <Icon className={cn("h-4 w-4 shrink-0", isActive && "text-primary")} />
-            <span>{item.label}</span>
-          </button>
-        )
-      })}
-    </nav>
+            <span>{t(item.labelKey)}</span>
+            </button>
+            )
+            })}
+
+            {isAdmin && (
+            <>
+            <div className="my-2 border-t border-border/50 mx-3" />
+            {adminItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                onNavigate(item.id)
+                onItemClick?.()
+              }}
+              className={cn(
+                "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-serif transition-all duration-200",
+                activeSection === item.id
+                  ? "bg-primary/10 text-primary arcane-glow"
+                  : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+              )}
+            >
+              <item.icon className="h-4 w-4 shrink-0" />
+              <span>{t(item.labelKey)}</span>
+            </button>
+            ))}
+            </>
+            )}
+            </nav>
+
   )
 }
 
 export function AppSidebar({ activeSection, onNavigate }: AppSidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { logout } = useAuth()
+  const { t, language, setLanguage } = useTranslation()
+
+  function handleLogout() {
+    if (confirm(t("sidebar.logout_confirm"))) {
+      logout()
+    }
+  }
 
   return (
     <>
@@ -73,18 +116,48 @@ export function AppSidebar({ activeSection, onNavigate }: AppSidebarProps) {
         <div className="flex items-center gap-2 border-b border-border px-4 py-4">
           <Sparkles className="h-5 w-5 text-primary" />
           <h1 className="text-base font-serif font-semibold text-foreground tracking-wide">
-            The Arcane Archivist
+            {t("sidebar.title")}
           </h1>
         </div>
         <div className="flex-1 overflow-y-auto arcane-scrollbar">
           <SidebarNav activeSection={activeSection} onNavigate={onNavigate} />
         </div>
-        <div className="border-t border-border px-4 py-3">
-          <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
-            {"// Chronicle v2.7.1"}
-            <br />
-            {"// Status: ACTIVE"}
-          </p>
+        
+        <div className="p-3 border-t border-border space-y-3">
+          <div className="flex items-center justify-between px-3 py-1 bg-secondary/20 rounded-md border border-white/5">
+            <span className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">{t("sidebar.language")}</span>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setLanguage("es")} 
+                className={cn("text-[10px] font-mono transition-colors", language === "es" ? "text-primary font-bold" : "text-muted-foreground hover:text-foreground")}
+              >
+                ES
+              </button>
+              <span className="text-[10px] text-muted-foreground">/</span>
+              <button 
+                onClick={() => setLanguage("en")} 
+                className={cn("text-[10px] font-mono transition-colors", language === "en" ? "text-primary font-bold" : "text-muted-foreground hover:text-foreground")}
+              >
+                EN
+              </button>
+            </div>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm font-serif text-muted-foreground hover:bg-red-900/10 hover:text-red-500 transition-all duration-200"
+          >
+            <LogOut className="h-4 w-4 shrink-0" />
+            <span>{t("sidebar.logout")}</span>
+          </button>
+          
+          <div className="px-3 py-1">
+            <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+              {t("sidebar.version")}
+              <br />
+              {t("sidebar.status_active")}
+            </p>
+          </div>
         </div>
       </aside>
 
@@ -97,24 +170,36 @@ export function AppSidebar({ activeSection, onNavigate }: AppSidebarProps) {
               <span className="sr-only">Open navigation</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-64 bg-sidebar border-border p-0">
+          <SheetContent side="left" className="w-64 bg-sidebar border-border p-0 flex flex-col h-full">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <div className="flex items-center gap-2 border-b border-border px-4 py-4">
               <Sparkles className="h-5 w-5 text-primary" />
               <span className="text-base font-serif font-semibold text-foreground tracking-wide">
-                The Arcane Archivist
+                {t("sidebar.title")}
               </span>
             </div>
-            <SidebarNav
-              activeSection={activeSection}
-              onNavigate={onNavigate}
-              onItemClick={() => setMobileOpen(false)}
-            />
+            <div className="flex-1 overflow-y-auto">
+              <SidebarNav
+                activeSection={activeSection}
+                onNavigate={onNavigate}
+                onItemClick={() => setMobileOpen(false)}
+              />
+            </div>
+            
+            <div className="p-4 border-t border-border">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-serif text-muted-foreground hover:bg-red-900/10 hover:text-red-500 transition-all duration-200"
+              >
+                <LogOut className="h-4 w-4 shrink-0" />
+                <span>{t("sidebar.logout")}</span>
+              </button>
+            </div>
           </SheetContent>
         </Sheet>
         <Sparkles className="h-4 w-4 text-primary" />
         <span className="font-serif text-sm font-semibold text-foreground">
-          The Arcane Archivist
+          {t("sidebar.title")}
         </span>
       </header>
     </>
