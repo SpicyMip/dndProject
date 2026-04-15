@@ -1,6 +1,6 @@
 module github.com/tu-usuario/dnd-db-cli
 
-go 1.25.8
+go 1.25.7
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
