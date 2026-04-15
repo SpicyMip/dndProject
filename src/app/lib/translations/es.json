@@ -1,0 +1,218 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "loading": "Consultando el Archivo...",
+    "close": "Cerrar",
+    "actions": "Acciones",
+    "confirm": "Confirmar",
+    "name": "Nombre",
+    "description": "Descripción"
+  },
+  "sidebar": {
+    "title": "El Archivista Arcano",
+    "chronicles": "Crónicas",
+    "pantheon": "Panteón",
+    "bestiary": "Bestiario",
+    "party": "Estado de la Party",
+    "terminal": "Terminal Arcana",
+    "notices": "Tablón de Anuncios",
+    "lexicon": "Léxico",
+    "archive": "Mi Archivo",
+    "admin": "Administración",
+    "logout": "Cerrar Sesión",
+    "logout_confirm": "¿Estás seguro de que deseas abandonar el Archivo?",
+    "language": "Idioma",
+    "version": "Crónica v2.7.1",
+    "status_active": "Estado: ACTIVO"
+  },
+  "login": {
+    "title": "El Archivista Arcano",
+    "subtitle": "Centro de Campaña Restringido",
+    "card_title": "Romper el Sello",
+    "card_description": "Proporciona tus credenciales para acceder a las crónicas.",
+    "email_placeholder": "Correo del Inquisidor",
+    "password_placeholder": "Frase Clave Secreta",
+    "submit": "Entrar al Archivo",
+    "error": "Error al entrar al Archivo. Revisa tus credenciales.",
+    "footer": "El acceso no autorizado es registrado por el Alto Consejo de Magos."
+  },
+  "codex": {
+    "title": "El Códice del Deshacer",
+    "subtitle": "Archivo Sellado // Nivel: ELDERGATE",
+    "chapters": [
+      {
+        "title": "Capítulo I: La Fractura Primordial",
+        "content": "Antes de que los dioses dieran forma al mundo, solo existía la Fractura Primordial..."
+      },
+      {
+        "title": "Capítulo II: La Locura de los Arquitectos",
+        "content": "Los Arquitectos buscaron crear un mundo perfecto, uno sin entropía ni decadencia..."
+      },
+      {
+        "title": "Capítulo III: El Pacto de Eldergate",
+        "content": "Los Arquitectos supervivientes, horrorizados por la devastación que habían causado, crearon el Eldergate..."
+      },
+      {
+        "title": "Capítulo IV: El Códice del Deshacer",
+        "content": "Este tomo -- el mismo texto que estás leyendo -- fue escrito por el último Arquitecto..."
+      }
+    ]
+  },
+  "party": {
+    "title": "Santuario de la Party",
+    "wealth": "Riqueza del Grupo",
+    "possession": "Posesiones de los Personajes",
+    "inventory": "Mi Inventario",
+    "hp": "Puntos de Vida",
+    "gold": "Oro",
+    "level": "Nivel",
+    "status": "Estado",
+    "stats": "Atributos",
+    "equipped": "Equipado",
+    "equip": "Equipar",
+    "unequip": "Desequipar",
+    "use": "Usar",
+    "empty_pockets": "Bolsillos vacíos...",
+    "unassigned": "Objetos sin asignar"
+  },
+  "bestiary": {
+    "title": "Bestiario Imperial",
+    "subtitle": "Encuentros documentados a través de los planos.",
+    "search": "Buscar en el archivo...",
+    "notes_label": "Mis Descubrimientos",
+    "notes_placeholder": "Añade notas personales sobre esta criatura...",
+    "notes_save": "Guardar Notas",
+    "stats_hidden": "Estadísticas de combate ocultas",
+    "description": "Descripción",
+    "actions": "Acciones",
+    "unknown_info": "La información detallada es aún desconocida...",
+    "note_saved": "Nota guardada en tu archivo personal"
+  },
+  "notices": {
+    "title": "Tablón de Anuncios",
+    "subtitle": "Decretos, misiones y rumores del reino.",
+    "filter_all": "Todos",
+    "filter_mission": "Misiones",
+    "filter_news": "Noticias",
+    "filter_ad": "Anuncios",
+    "empty": "El tablón está vacío por ahora.",
+    "read_more": "Leer decreto completo",
+    "translate_placeholder": "Traducir símbolo...",
+    "interpretation_updated": "Interpretación para {symbol} actualizada",
+    "save_failed": "Error al guardar"
+  },
+  "chronicles": {
+    "title": "Las Crónicas",
+    "sessions_count": "Sesiones registradas",
+    "part": "Parte",
+    "classified": "Información Clasificada",
+    "reveal": "Pasa el cursor para revelar secreto"
+  },
+  "pantheon": {
+    "title": "El Panteón",
+    "subtitle": "Las fuerzas divinas que dan forma al mundo. Desde las poderosas Deidades Mayores que forjaron el cosmos hasta los Ídolos Menores que caminan entre los mortales, cada uno domina el destino de todos.",
+    "greater": "Deidades Mayores",
+    "lesser": "Ídolos Menores",
+    "symbol": "SÍMBOLO"
+  },
+  "lexicon": {
+    "title": "Léxico Antiguo",
+    "subtitle": "Descifra el lenguaje primordial de los Arquitectos.",
+    "search": "Buscar símbolos o significados...",
+    "unknown": "Significado desconocido...",
+    "deciphered": "Descifrado",
+    "symbol_label": "Secuencia de Símbolos",
+    "meaning_label": "Significado Traducido",
+    "meaning_placeholder": "¿Qué significa esta palabra?",
+    "notes_label": "Notas de Investigación",
+    "notes_placeholder": "Contexto donde se encontró, etimología potencial...",
+    "save": "Archivar en Registro Personal"
+  },
+  "admin": {
+    "title": "Admin Codex Arcanum",
+    "subtitle": "Gestión de campaña y mundo",
+    "bestiary": "Bestiario",
+    "items": "Objetos",
+    "lexicon": "Léxico",
+    "characters": "Personajes",
+    "pantheon": "Panteón",
+    "chronicles": "Crónicas",
+    "forge_title": "Forjar Objeto",
+    "forge_subtitle": "Crear objetos para la biblioteca global",
+    "vault_title": "Bóveda de Archivo",
+    "vault_subtitle": "Objetos sin asignar",
+    "possession_title": "Posesión de Personajes",
+    "recipient_label": "Leyenda Destinataria",
+    "select_recipient": "Seleccionar destinatario...",
+    "item_name": "Nombre",
+    "item_category": "Categoría",
+    "item_rarity": "Rareza",
+    "item_properties": "Propiedades",
+    "item_bestow": "Otorgar Objeto",
+    "item_forge": "Forjar Objeto",
+    "item_equippable": "Equipable",
+    "item_usable": "Usable",
+    "image_url": "URL de la Imagen",
+    "type": "Tipo",
+    "alignment": "Alineamiento",
+    "ac": "CA",
+    "hp": "PV",
+    "dm_notes": "Significado interno...",
+    "delete_confirm": "¿Eliminar?",
+    "edit": "Editar",
+    "new": "Nuevo",
+    "encountered": "Encontrado",
+    "hidden": "Oculto",
+    "archive": "Archivo",
+    "done": "Listo",
+    "stats": "Atributos",
+    "proficiencies": "Competencias",
+    "abilities": "Habilidades",
+    "actions": "Acciones",
+    "discover_symbols": "Descubrir Símbolos",
+    "secret_dm_notes": "Notas Secretas del DM",
+    "reveal_to_players": "Revelar a Jugadores",
+    "revealed_lexicon": "Léxico Revelado",
+    "symbols_added": "Símbolos añadidos",
+    "delete_symbols_confirm": "¿Eliminar símbolos?"
+  },
+  "archive": {
+    "title": "Mi Archivo",
+    "subtitle": "Identidad del Jugador y Crónicas",
+    "new_character": "Nuevo Personaje",
+    "edit_title": "Editar Identidad",
+    "create_title": "Forja tu Leyenda",
+    "ruleset": "Reglas: D&D 5ª Edición Core",
+    "full_name": "Nombre Completo",
+    "race": "Raza",
+    "class": "Clase",
+    "alignment": "Alineamiento",
+    "background": "Trasfondo",
+    "ability_scores": "Puntuaciones de Habilidad Base",
+    "ability_help": "(La forja proporciona bonificadores raciales)",
+    "max_hp": "Vida Máxima",
+    "save_create": "Consagrar Personaje",
+    "save_update": "Actualizar Pergamino",
+    "empty": "Tu archivo está vacío. Forja tu primera leyenda.",
+    "delete_confirm": "¿Sellar este personaje en los archivos perdidos?",
+    "updated": "Personaje actualizado",
+    "enshrined": "Personaje consagrado",
+    "archived": "Personaje archivado",
+    "save_failed": "Error al guardar personaje",
+    "archive_failed": "Error al archivar personaje",
+    "modifier": "Mod:",
+    "races": {
+      "Human": "Humano", "Elf": "Elfo", "Dwarf": "Enano", "Halfling": "Mediano", "Dragonborn": "Dracónido", "Gnome": "Gnomo", "Half-Elf": "Semielfo", "Half-Orc": "Semiorco", "Tiefling": "Tiflin"
+    },
+    "classes": {
+      "Barbarian": "Bárbaro", "Bard": "Bardo", "Cleric": "Clérigo", "Druid": "Druida", "Fighter": "Guerrero", "Monk": "Monje", "Paladin": "Paladín", "Ranger": "Explorador", "Rogue": "Pícaro", "Sorcerer": "Hechicero", "Warlock": "Brujo", "Wizard": "Mago"
+    },
+    "alignments": {
+      "Lawful Good": "Legal Bueno", "Neutral Good": "Neutral Bueno", "Chaotic Good": "Caótico Bueno", "Lawful Neutral": "Legal Neutral", "True Neutral": "Neutral Auténtico", "Chaotic Neutral": "Caótico Neutral", "Lawful Evil": "Legal Malvado", "Neutral Evil": "Neutral Malvado", "Chaotic Evil": "Caótico Malvado"
+    }
+  }
+}

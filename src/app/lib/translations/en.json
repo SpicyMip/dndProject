@@ -1,0 +1,218 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "loading": "Consulting the Archive...",
+    "close": "Close",
+    "actions": "Actions",
+    "confirm": "Confirm",
+    "name": "Name",
+    "description": "Description"
+  },
+  "sidebar": {
+    "title": "The Arcane Archivist",
+    "chronicles": "Chronicles",
+    "pantheon": "Pantheon",
+    "bestiary": "Bestiary",
+    "party": "Party Status",
+    "terminal": "Arcane Terminal",
+    "notices": "Notice Board",
+    "lexicon": "Lexicon",
+    "archive": "My Archive",
+    "admin": "Administration",
+    "logout": "Logout",
+    "logout_confirm": "Are you sure you want to leave the Archive?",
+    "language": "Language",
+    "version": "Chronicle v2.7.1",
+    "status_active": "Status: ACTIVE"
+  },
+  "login": {
+    "title": "The Arcane Archivist",
+    "subtitle": "Restricted Campaign Hub",
+    "card_title": "Break the Seal",
+    "card_description": "Provide your credentials to access the chronicles.",
+    "email_placeholder": "Inquisitor's Email",
+    "password_placeholder": "Secret Keyphrase",
+    "submit": "Enter the Archive",
+    "error": "Failed to enter the Archive. Check your credentials.",
+    "footer": "Unauthorized access is recorded by the High Council of Mages."
+  },
+  "codex": {
+    "title": "The Codex of Unmaking",
+    "subtitle": "Sealed Archive // Clearance: ELDERGATE",
+    "chapters": [
+      {
+        "title": "Chapter I: The Primordial Fracture",
+        "content": "Before the gods shaped the world, there existed only the Primordial Fracture..."
+      },
+      {
+        "title": "Chapter II: The Architects' Folly",
+        "content": "The Architects sought to create a perfect world, one without entropy or decay..."
+      },
+      {
+        "title": "Chapter III: The Eldergate Compact",
+        "content": "The surviving Architects, horrified by the devastation they had wrought, created the Eldergate..."
+      },
+      {
+        "title": "Chapter IV: The Codex of Unmaking",
+        "content": "This tome -- the very text you are reading -- was written by the last Architect..."
+      }
+    ]
+  },
+  "party": {
+    "title": "Party Sanctum",
+    "wealth": "Party Wealth",
+    "possession": "Character Possession",
+    "inventory": "My Inventory",
+    "hp": "Hit Points",
+    "gold": "Gold",
+    "level": "Level",
+    "status": "Status",
+    "stats": "Ability Scores",
+    "equipped": "Equipped",
+    "equip": "Equip",
+    "unequip": "Unequip",
+    "use": "Use",
+    "empty_pockets": "Empty pockets...",
+    "unassigned": "Unassigned items"
+  },
+  "bestiary": {
+    "title": "Imperial Bestiary",
+    "subtitle": "Documented encounters across the planes.",
+    "search": "Search the archive...",
+    "notes_label": "My Discoveries",
+    "notes_placeholder": "Add personal notes about this creature...",
+    "notes_save": "Save Notes",
+    "stats_hidden": "Combat stats hidden",
+    "description": "Description",
+    "actions": "Actions",
+    "unknown_info": "Detailed information is still unknown...",
+    "note_saved": "Note saved in your personal archive"
+  },
+  "notices": {
+    "title": "Notice Board",
+    "subtitle": "Decrees, missions, and rumors of the realm.",
+    "filter_all": "All",
+    "filter_mission": "Missions",
+    "filter_news": "News",
+    "filter_ad": "Ads",
+    "empty": "The board is empty for now.",
+    "read_more": "Read full decree",
+    "translate_placeholder": "Translate symbol...",
+    "interpretation_updated": "Interpretation for {symbol} updated",
+    "save_failed": "Failed to save"
+  },
+  "chronicles": {
+    "title": "The Chronicles",
+    "sessions_count": "Sessions Record",
+    "part": "Part",
+    "classified": "Classified Information",
+    "reveal": "Hover to reveal secret"
+  },
+  "pantheon": {
+    "title": "The Pantheon",
+    "subtitle": "The divine forces that shape the world. From the mighty Greater Deities who forged the cosmos to the Lesser Idols who walk among mortals, each holds sway over the fate of all.",
+    "greater": "Greater Deities",
+    "lesser": "Lesser Idols",
+    "symbol": "SYMBOL"
+  },
+  "lexicon": {
+    "title": "Ancient Lexicon",
+    "subtitle": "Decipher the primordial language of the Architects.",
+    "search": "Search symbols or meanings...",
+    "unknown": "Unknown meaning...",
+    "deciphered": "Deciphered",
+    "symbol_label": "Symbol Sequence",
+    "meaning_label": "Translated Meaning",
+    "meaning_placeholder": "What does this word mean?",
+    "notes_label": "Research Notes",
+    "notes_placeholder": "Context where it was found, potential etymology...",
+    "save": "Commit to Personal Archive"
+  },
+  "admin": {
+    "title": "Admin Codex Arcanum",
+    "subtitle": "Campaign & world management",
+    "bestiary": "Bestiary",
+    "items": "Items",
+    "lexicon": "Lexicon",
+    "characters": "Characters",
+    "pantheon": "Pantheon",
+    "chronicles": "Chronicles",
+    "forge_title": "Forge Item",
+    "forge_subtitle": "Create items for the global library",
+    "vault_title": "Archive Vault",
+    "vault_subtitle": "Unassigned items",
+    "possession_title": "Character Possession",
+    "recipient_label": "Recipient Legend",
+    "select_recipient": "Select recipient...",
+    "item_name": "Name",
+    "item_category": "Category",
+    "item_rarity": "Rarity",
+    "item_properties": "Properties",
+    "item_bestow": "Bestow Item",
+    "item_forge": "Forge Item",
+    "item_equippable": "Equippable",
+    "item_usable": "Usable",
+    "image_url": "Image URL",
+    "type": "Type",
+    "alignment": "Alignment",
+    "ac": "AC",
+    "hp": "HP",
+    "dm_notes": "Internal meaning...",
+    "delete_confirm": "Delete?",
+    "edit": "Edit",
+    "new": "New",
+    "encountered": "Encountered",
+    "hidden": "Hidden",
+    "archive": "Archive",
+    "done": "Done",
+    "stats": "Stats",
+    "proficiencies": "Proficiencies",
+    "abilities": "Abilities",
+    "actions": "Actions",
+    "discover_symbols": "Discover Symbols",
+    "secret_dm_notes": "Secret DM Notes",
+    "reveal_to_players": "Reveal to Players",
+    "revealed_lexicon": "Revealed Lexicon",
+    "symbols_added": "Symbols added",
+    "delete_symbols_confirm": "Delete symbols?"
+  },
+  "archive": {
+    "title": "My Archive",
+    "subtitle": "Player Identity & Chronicles",
+    "new_character": "New Character",
+    "edit_title": "Edit Identity",
+    "create_title": "Forge your Legend",
+    "ruleset": "Ruleset: D&D 5th Edition Core",
+    "full_name": "Full Name",
+    "race": "Race",
+    "class": "Class",
+    "alignment": "Alignment",
+    "background": "Background",
+    "ability_scores": "Base Ability Scores",
+    "ability_help": "(The forge provides racial bonuses)",
+    "max_hp": "Max HP",
+    "save_create": "Enshrine Character",
+    "save_update": "Update Scroll",
+    "empty": "Your archive is empty. Forge your first legend.",
+    "delete_confirm": "Seal this character in the lost archives?",
+    "updated": "Character updated",
+    "enshrined": "Character enshrined",
+    "archived": "Character archived",
+    "save_failed": "Failed to save character",
+    "archive_failed": "Failed to archive character",
+    "modifier": "Mod:",
+    "races": {
+      "Human": "Human", "Elf": "Elf", "Dwarf": "Dwarf", "Halfling": "Halfling", "Dragonborn": "Dragonborn", "Gnome": "Gnome", "Half-Elf": "Half-Elf", "Half-Orc": "Half-Orc", "Tiefling": "Tiefling"
+    },
+    "classes": {
+      "Barbarian": "Barbarian", "Bard": "Bard", "Cleric": "Cleric", "Druid": "Druid", "Fighter": "Fighter", "Monk": "Monk", "Paladin": "Paladin", "Ranger": "Ranger", "Rogue": "Rogue", "Sorcerer": "Sorcerer", "Warlock": "Warlock", "Wizard": "Wizard"
+    },
+    "alignments": {
+      "Lawful Good": "Lawful Good", "Neutral Good": "Neutral Good", "Chaotic Good": "Chaotic Good", "Lawful Neutral": "Lawful Neutral", "True Neutral": "True Neutral", "Chaotic Neutral": "Chaotic Neutral", "Lawful Evil": "Lawful Evil", "Neutral Evil": "Neutral Evil", "Chaotic Evil": "Chaotic Evil"
+    }
+  }
+}
