@@ -26,7 +26,7 @@ import { StatBlock } from "./stat-block"
 import { classIcons } from "./constants"
 
 export function PlayerCharacterSheet({ character }: { character: Character }) {
-  const { updateCharacter, updatePersonalItem, addPersonalItem, deletePersonalItem } = useParty()
+  const { updateCharacter, updatePersonalItem } = useParty()
   const ClassIcon = classIcons[character.class] || Shield
   
   return (
@@ -145,15 +145,6 @@ export function PlayerCharacterSheet({ character }: { character: Character }) {
             <Package className="h-3.5 w-3.5" />
             Personal Inventory
           </Label>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => addPersonalItem(character.id, { name: "New Item", quantity: 1, type: "misc" })}
-            className="h-6 px-2 text-xs"
-          >
-            <Plus className="h-3 w-3 mr-1" />
-            Add
-          </Button>
         </div>
         <div className="rounded-md border border-border divide-y divide-border">
           {character.personalItems.length === 0 ? (
@@ -166,28 +157,10 @@ export function PlayerCharacterSheet({ character }: { character: Character }) {
                 key={item.id}
                 className="flex items-center justify-between px-3 py-2 text-sm gap-2"
               >
-                <Input
-                  value={item.name}
-                  onChange={(e) => updatePersonalItem(character.id, item.id, { name: e.target.value })}
-                  className="flex-1 h-8 font-serif text-foreground border-dashed bg-transparent"
-                />
+                <span className="flex-1 font-serif text-foreground">{item.name}</span>
                 <div className="flex items-center gap-1">
                   <span className="font-mono text-xs text-muted-foreground">x</span>
-                  <Input
-                    type="number"
-                    value={item.quantity}
-                    onChange={(e) => updatePersonalItem(character.id, item.id, { quantity: parseInt(e.target.value) || 0 })}
-                    className="h-8 w-14 font-mono text-xs text-center border-dashed"
-                    min={0}
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => deletePersonalItem(character.id, item.id)}
-                    className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
+                  <span className="text-xs font-mono font-bold w-8 text-center">{item.quantity}</span>
                 </div>
               </div>
             ))

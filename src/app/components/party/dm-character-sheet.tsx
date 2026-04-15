@@ -30,7 +30,7 @@ interface DMCharacterSheetProps {
 }
 
 export function DMCharacterSheet({ characterId, onClose }: DMCharacterSheetProps) {
-  const { party, updateCharacter, updatePersonalItem, addPersonalItem, deletePersonalItem } = useParty()
+  const { party, updateCharacter, updatePersonalItem } = useParty()
   const character = party.find((c) => c.id === characterId)
   
   if (!character) return null
@@ -166,28 +166,10 @@ export function DMCharacterSheet({ characterId, onClose }: DMCharacterSheetProps
                     key={item.id}
                     className="flex items-center justify-between px-3 py-2 gap-2"
                   >
-                    <Input
-                      value={item.name}
-                      onChange={(e) => updatePersonalItem(character.id, item.id, { name: e.target.value })}
-                      className="flex-1 h-8 text-sm border-dashed"
-                    />
+                    <span className="flex-1 text-sm font-serif">{item.name}</span>
                     <div className="flex items-center gap-1">
                       <span className="font-mono text-xs text-muted-foreground">x</span>
-                      <Input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => updatePersonalItem(character.id, item.id, { quantity: parseInt(e.target.value) || 0 })}
-                        className="h-8 w-16 font-mono text-xs text-center border-dashed"
-                        min={0}
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deletePersonalItem(character.id, item.id)}
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
+                      <span className="text-xs font-mono font-bold w-8 text-center">{item.quantity}</span>
                     </div>
                   </div>
                 ))
