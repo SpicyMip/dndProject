@@ -184,7 +184,6 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
         ) : (
           character.personalItems.map((item) => {
             const Icon = categoryIcons[item.category] || Box
-            const isEditing = editingItemId === item.id
 
             return (
               <div
