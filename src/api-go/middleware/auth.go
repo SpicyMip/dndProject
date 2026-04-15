@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"context"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	firebase "firebase.google.com/go/v4"
@@ -12,8 +14,22 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	// Initialize Firebase App
-	// In production, use FIREBASE_AUTH_KEY env var pointing to your JSON service account file
-	opt := option.WithCredentialsFile("serviceAccountKey.json")
+	configPath := os.Getenv("FIREBASE_CONFIG_PATH")
+	if configPath == "" {
+		configPath = "serviceAccountKey.json"
+	}
+	
+	// Check if file exists
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		log.Printf("⚠️  Firebase config not found at %s. Running with MOCK AUTH.", configPath)
+		return func(c *gin.Context) {
+			c.Set("user_id", "mock@example.com")
+			c.Set("user_role", "admin")
+			c.Next()
+		}
+	}
+
+	opt := option.WithCredentialsFile(configPath)
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		panic("error initializing firebase app: " + err.Error())
@@ -40,8 +56,11 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Store user ID (UID) in context for handlers to use
-		c.Set("user_id", token.UID)
+		// Store user email and role in context for handlers to use
+		email, _ := token.Claims["email"].(string)
+		role, _ := token.Claims["role"].(string)
+		c.Set("user_id", email)
+		c.Set("user_role", role)
 		c.Next()
 	}
 }
