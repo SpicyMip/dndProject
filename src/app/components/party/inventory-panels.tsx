@@ -114,8 +114,13 @@ const rarityColors: Record<string, string> = {
 export function PlayerInventoryPanel({ character }: { character: Character }) {
   const { updatePersonalItem, addPersonalItem, deletePersonalItem, userRole } = useParty()
   const { t } = useTranslation()
-  const [editingItemId, setEditingItemId] = React.useState<number | null>(null)
   const isDM = userRole === "DM"
+
+  const parseSpecialActions = (actionsStr?: string) => {
+    try {
+      return actionsStr ? JSON.parse(actionsStr) : []
+    } catch { return [] }
+  }
 
   const toggleEquip = (item: any) => {
     if (item.isEquipped) {
@@ -179,7 +184,6 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
         ) : (
           character.personalItems.map((item) => {
             const Icon = categoryIcons[item.category] || Box
-            const isEditing = editingItemId === item.id
 
             return (
               <div
@@ -204,13 +208,46 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                         </span>
                         {item.isEquipped && (
                           <span className="text-[8px] font-mono bg-primary/20 text-primary px-1.5 py-0.5 rounded uppercase font-bold">
-                            Equipped
+                            {t("party.equipped")}
                           </span>
                         )}
                       </div>
-                      <p className="text-[10px] text-muted-foreground font-mono truncate h-4">
-                        {item.properties || item.category}
-                      </p>
+                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
+                        <p className="text-[10px] text-muted-foreground font-mono truncate">
+                          {item.properties || t(`admin.categories.${item.category}`)}
+                        </p>
+                        {item.damage && (
+                          <span className="text-[10px] font-bold text-red-400/80 font-mono">
+                            🗡️ {item.damage} {item.damageType}
+                          </span>
+                        )}
+                        {item.acBonus && (
+                          <span className="text-[10px] font-bold text-blue-400/80 font-mono">
+                            🛡️ +{item.acBonus} AC
+                          </span>
+                        )}
+                        {item.charges !== undefined && item.charges > 0 && (
+                          <span className="text-[10px] font-bold text-amber-400/80 font-mono">
+                            ✨ {item.charges} {t("party.charges")}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Special Actions */}
+                      {parseSpecialActions(item.specialActions).length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          {parseSpecialActions(item.specialActions).map((action: any, idx: number) => (
+                            <div key={idx} className="p-1.5 rounded bg-primary/5 border border-primary/10">
+                              <p className="text-[10px] font-bold text-primary flex items-center gap-1 uppercase tracking-tighter">
+                                <Sparkles className="h-2.5 w-2.5" /> {action.name}
+                              </p>
+                              <p className="text-[9px] text-muted-foreground leading-tight italic">
+                                {action.desc}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -238,108 +275,14 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                           size="icon"
                           onClick={() => useItem(item)}
                           className="h-7 w-7 text-green-500"
-                          title="Use"
+                          title={t("party.use")}
                         >
                           <Sparkles className="h-3.5 w-3.5" />
                         </Button>
                       )}
-                      {isDM && (
-                        <>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setEditingItemId(isEditing ? null : item.id)}
-                            className="h-7 w-7 text-muted-foreground hover:text-primary"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => deletePersonalItem(character.id, item.id)}
-                            className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
-                        </>
-                      )}
                     </div>
                   </div>
                 </div>
-
-                {isEditing && (
-                  <div className="mt-3 pt-3 border-t border-white/5 grid grid-cols-2 gap-3 animate-in slide-in-from-top-2 duration-200">
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Name</Label>
-                      <Input 
-                        value={item.name} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { name: e.target.value })}
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Category</Label>
-                      <select 
-                        className="w-full h-7 bg-black/40 border border-input rounded px-2 text-xs"
-                        value={item.category}
-                        onChange={e => updatePersonalItem(character.id, item.id, { category: e.target.value as any })}
-                      >
-                        {Object.keys(categoryIcons).map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Rarity</Label>
-                      <select 
-                        className="w-full h-7 bg-black/40 border border-input rounded px-2 text-xs"
-                        value={item.rarity}
-                        onChange={e => updatePersonalItem(character.id, item.id, { rarity: e.target.value as any })}
-                      >
-                        {Object.keys(rarityColors).map(r => <option key={r} value={r}>{r}</option>)}
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Quantity</Label>
-                      <Input 
-                        type="number"
-                        value={item.quantity} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { quantity: parseInt(e.target.value) || 0 })}
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="col-span-2 space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Properties / Notes</Label>
-                      <Input 
-                        value={item.properties} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { properties: e.target.value })}
-                        placeholder="Ej: 1d8 damage, AC +2, etc"
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="col-span-2 flex items-center justify-between pt-1">
-                      <div className="flex gap-4">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={item.isEquippable} 
-                            onChange={e => updatePersonalItem(character.id, item.id, { isEquippable: e.target.checked })}
-                            className="h-3 w-3 rounded border-gray-300 text-primary focus:ring-primary"
-                          />
-                          <span className="text-[10px] uppercase font-bold opacity-70">Equippable</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={item.isUsable} 
-                            onChange={e => updatePersonalItem(character.id, item.id, { isUsable: e.target.checked })}
-                            className="h-3 w-3 rounded border-gray-300 text-primary focus:ring-primary"
-                          />
-                          <span className="text-[10px] uppercase font-bold opacity-70">Usable</span>
-                        </label>
-                      </div>
-                      <Button variant="ghost" size="sm" onClick={() => setEditingItemId(null)} className="h-6 text-[10px] uppercase">Close</Button>
-                    </div>
-                  </div>
-                )}
               </div>
             )
           })

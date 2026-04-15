@@ -51,5 +51,13 @@ type InventoryItem struct {
 	IsEquipped   bool    `json:"isEquipped"`
 	IsUsable     bool    `json:"isUsable"`
 	Weight       float64 `json:"weight"`
-	Properties   string  `json:"properties"` // Ej: "1d8 slashing", "AC 15"
+	Properties   string  `json:"properties"` // Ej: "Versatile", "Finesse"
+	
+	// Technical Stats
+	Damage         string `json:"damage"`         // Ej: "1d8"
+	DamageType     string `json:"damageType"`     // Ej: "Slashing"
+	ACBonus        int    `json:"acBonus"`        // Ej: 2 para escudos o armaduras
+	Requirements   string `json:"requirements"`   // Ej: "Str 13"
+	Charges        int    `json:"charges"`        // Para objetos con usos limitados
+	SpecialActions string `json:"specialActions"` // JSON string con array de acciones [{name, desc, type}]
 }

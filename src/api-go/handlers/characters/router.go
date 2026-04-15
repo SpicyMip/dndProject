@@ -21,4 +21,6 @@ func RegisterRoutes(r *gin.RouterGroup) {
 	r.GET("/library", GetGlobalItems)
 	r.POST("/global", CreateGlobalItem)
 	r.POST("/items/:itemId/bestow", BestowItem)
+	r.POST("/items/:itemId/unassign", UnassignItem)
+	r.POST("/items/:itemId/transfer", TransferItem)
 }

@@ -9,6 +9,12 @@ import (
 )
 
 func DeleteCharacterItem(c *gin.Context) {
+	role, _ := c.Get("user_role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only archives high council can destroy items"})
+		return
+	}
+
 	itemID := c.Param("itemId")
 	if err := handlers.DB.Delete(&models.InventoryItem{}, "id = ?", itemID).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

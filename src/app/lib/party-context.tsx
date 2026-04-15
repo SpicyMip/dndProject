@@ -17,6 +17,12 @@ export interface InventoryItem {
   isUsable: boolean
   weight: number
   properties: string
+  damage?: string
+  damageType?: string
+  acBonus?: number
+  requirements?: string
+  charges?: number
+  specialActions?: string
 }
 
 export interface Character {
@@ -56,6 +62,8 @@ interface PartyContextType {
   addPersonalItem: (characterId: number, item: Partial<InventoryItem>) => Promise<void>
   updatePersonalItem: (characterId: number, itemId: number, updates: Partial<InventoryItem>) => Promise<void>
   deletePersonalItem: (characterId: number, itemId: number) => Promise<void>
+  unassignItem: (itemId: number) => Promise<void>
+  transferItem: (itemId: number, targetCharacterId: number) => Promise<void>
 }
 
 const PartyContext = createContext<PartyContextType | undefined>(undefined)
@@ -186,6 +194,26 @@ export function PartyProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const unassignItem = async (itemId: number) => {
+    try {
+      await api.post(`/characters/items/${itemId}/unassign`, {})
+      fetchData()
+      toast.success("Item returned to vault")
+    } catch (error) {
+      toast.error("Failed to unassign item")
+    }
+  }
+
+  const transferItem = async (itemId: number, targetCharacterId: number) => {
+    try {
+      await api.post(`/characters/items/${itemId}/transfer`, { characterId: targetCharacterId })
+      fetchData()
+      toast.success("Item transferred")
+    } catch (error) {
+      toast.error("Failed to transfer item")
+    }
+  }
+
   return (
     <PartyContext.Provider value={{
       party: characters,
@@ -198,7 +226,9 @@ export function PartyProvider({ children }: { children: React.ReactNode }) {
       updateCharacter,
       addPersonalItem,
       updatePersonalItem,
-      deletePersonalItem
+      deletePersonalItem,
+      unassignItem,
+      transferItem
     }}>
       {children}
     </PartyContext.Provider>

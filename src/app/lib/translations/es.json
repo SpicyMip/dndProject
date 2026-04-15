@@ -77,7 +77,13 @@
     "unequip": "Desequipar",
     "use": "Usar",
     "empty_pockets": "Bolsillos vacíos...",
-    "unassigned": "Objetos sin asignar"
+    "unassigned": "Objetos sin asignar",
+    "damage": "Daño",
+    "damage_type": "Tipo",
+    "ac_bonus": "Bono CA",
+    "requirements": "Requisitos",
+    "charges": "Cargas",
+    "special_actions": "Acciones Especiales"
   },
   "bestiary": {
     "title": "Bestiario Imperial",
@@ -152,6 +158,10 @@
     "item_category": "Categoría",
     "item_rarity": "Rareza",
     "item_properties": "Propiedades",
+    "properties_placeholder": "Sutil, Ligera, Pesada...",
+    "requirements_placeholder": "Fue 13, sintonización...",
+    "damage_placeholder": "1d8",
+    "damage_type_placeholder": "Cortante",
     "item_bestow": "Otorgar Objeto",
     "item_forge": "Forjar Objeto",
     "item_equippable": "Equipable",
@@ -205,7 +215,16 @@
     },
     "notice_types": {
       "mission": "Misión", "ad": "Anuncio", "news": "Noticia"
-    }
+    },
+    "unassign": "Desvincular",
+    "transfer": "Transferir",
+    "unassign_confirm": "¿Devolver este objeto a la Bóveda de Archivo?",
+    "transfer_title": "Transferir Objeto",
+    "item_unassigned": "Objeto devuelto a la bóveda",
+    "item_transferred": "Objeto transferido a {name}",
+    "add_action": "Añadir Acción",
+    "action_name": "Nombre de la Acción",
+    "action_desc": "Descripción"
   },
   "archive": {
     "title": "Mi Archivo",

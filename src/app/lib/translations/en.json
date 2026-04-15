@@ -77,7 +77,13 @@
     "unequip": "Unequip",
     "use": "Use",
     "empty_pockets": "Empty pockets...",
-    "unassigned": "Unassigned items"
+    "unassigned": "Unassigned items",
+    "damage": "Damage",
+    "damage_type": "Type",
+    "ac_bonus": "AC Bonus",
+    "requirements": "Requirements",
+    "charges": "Charges",
+    "special_actions": "Special Actions"
   },
   "bestiary": {
     "title": "Imperial Bestiary",
@@ -152,6 +158,10 @@
     "item_category": "Category",
     "item_rarity": "Rarity",
     "item_properties": "Properties",
+    "properties_placeholder": "Finesse, Light, Heavy...",
+    "requirements_placeholder": "Str 13, attunement...",
+    "damage_placeholder": "1d8",
+    "damage_type_placeholder": "Slashing",
     "item_bestow": "Bestow Item",
     "item_forge": "Forge Item",
     "item_equippable": "Equippable",
@@ -205,7 +215,16 @@
     },
     "notice_types": {
       "mission": "Mission", "ad": "Ad", "news": "News"
-    }
+    },
+    "unassign": "Unassign",
+    "transfer": "Transfer",
+    "unassign_confirm": "Return this item to the Archive Vault?",
+    "transfer_title": "Transfer Item",
+    "item_unassigned": "Item returned to vault",
+    "item_transferred": "Item transferred to {name}",
+    "add_action": "Add Action",
+    "action_name": "Action Name",
+    "action_desc": "Description"
   },
   "archive": {
     "title": "My Archive",
