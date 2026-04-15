@@ -114,7 +114,6 @@ const rarityColors: Record<string, string> = {
 export function PlayerInventoryPanel({ character }: { character: Character }) {
   const { updatePersonalItem, addPersonalItem, deletePersonalItem, userRole } = useParty()
   const { t } = useTranslation()
-  const [editingItemId, setEditingItemId] = React.useState<number | null>(null)
   const isDM = userRole === "DM"
 
   const parseSpecialActions = (actionsStr?: string) => {
@@ -277,110 +276,14 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                           size="icon"
                           onClick={() => useItem(item)}
                           className="h-7 w-7 text-green-500"
-                          title="Use"
+                          title={t("party.use")}
                         >
                           <Sparkles className="h-3.5 w-3.5" />
                         </Button>
                       )}
-                      {isDM && (
-                        <>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setEditingItemId(isEditing ? null : item.id)}
-                            className="h-7 w-7 text-muted-foreground hover:text-primary"
-                            title={t("common.edit")}
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => deletePersonalItem(character.id, item.id)}
-                            className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                            title={t("common.delete")}
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
-                        </>
-                      )}
                     </div>
                   </div>
                 </div>
-
-                {isEditing && (
-                  <div className="mt-3 pt-3 border-t border-white/5 grid grid-cols-2 gap-3 animate-in slide-in-from-top-2 duration-200">
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Name</Label>
-                      <Input 
-                        value={item.name} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { name: e.target.value })}
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Category</Label>
-                      <select 
-                        className="w-full h-7 bg-black/40 border border-input rounded px-2 text-xs"
-                        value={item.category}
-                        onChange={e => updatePersonalItem(character.id, item.id, { category: e.target.value as any })}
-                      >
-                        {Object.keys(categoryIcons).map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Rarity</Label>
-                      <select 
-                        className="w-full h-7 bg-black/40 border border-input rounded px-2 text-xs"
-                        value={item.rarity}
-                        onChange={e => updatePersonalItem(character.id, item.id, { rarity: e.target.value as any })}
-                      >
-                        {Object.keys(rarityColors).map(r => <option key={r} value={r}>{r}</option>)}
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Quantity</Label>
-                      <Input 
-                        type="number"
-                        value={item.quantity} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { quantity: parseInt(e.target.value) || 0 })}
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="col-span-2 space-y-1">
-                      <Label className="text-[10px] uppercase opacity-50">Properties / Notes</Label>
-                      <Input 
-                        value={item.properties} 
-                        onChange={e => updatePersonalItem(character.id, item.id, { properties: e.target.value })}
-                        placeholder="Ej: 1d8 damage, AC +2, etc"
-                        className="h-7 text-xs bg-transparent"
-                      />
-                    </div>
-                    <div className="col-span-2 flex items-center justify-between pt-1">
-                      <div className="flex gap-4">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={item.isEquippable} 
-                            onChange={e => updatePersonalItem(character.id, item.id, { isEquippable: e.target.checked })}
-                            className="h-3 w-3 rounded border-gray-300 text-primary focus:ring-primary"
-                          />
-                          <span className="text-[10px] uppercase font-bold opacity-70">Equippable</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={item.isUsable} 
-                            onChange={e => updatePersonalItem(character.id, item.id, { isUsable: e.target.checked })}
-                            className="h-3 w-3 rounded border-gray-300 text-primary focus:ring-primary"
-                          />
-                          <span className="text-[10px] uppercase font-bold opacity-70">Usable</span>
-                        </label>
-                      </div>
-                      <Button variant="ghost" size="sm" onClick={() => setEditingItemId(null)} className="h-6 text-[10px] uppercase">Close</Button>
-                    </div>
-                  </div>
-                )}
               </div>
             )
           })
