@@ -17,7 +17,8 @@ import {
   Check,
   HardHat,
   Gem,
-  Pencil
+  Pencil,
+  X
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -217,11 +218,11 @@ export function AdminItems() {
                 <>
                   <div className="space-y-1">
                     <Label className="text-[10px] uppercase opacity-70">{t("party.damage")}</Label>
-                    <Input value={formData.damage} onChange={e => setFormData({...formData, damage: e.target.value})} placeholder="1d8" className="h-8 text-xs" />
+                    <Input value={formData.damage} onChange={e => setFormData({...formData, damage: e.target.value})} placeholder={t("admin.damage_placeholder")} className="h-8 text-xs" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-[10px] uppercase opacity-70">{t("party.damage_type")}</Label>
-                    <Input value={formData.damageType} onChange={e => setFormData({...formData, damageType: e.target.value})} placeholder="Slashing" className="h-8 text-xs" />
+                    <Input value={formData.damageType} onChange={e => setFormData({...formData, damageType: e.target.value})} placeholder={t("admin.damage_type_placeholder")} className="h-8 text-xs" />
                   </div>
                 </>
               )}
@@ -239,13 +240,13 @@ export function AdminItems() {
               )}
               <div className="space-y-1 col-span-2">
                 <Label className="text-[10px] uppercase opacity-70">{t("party.requirements")}</Label>
-                <Input value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} placeholder="Str 13, attunement..." className="h-8 text-xs" />
+                <Input value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} placeholder={t("admin.requirements_placeholder")} className="h-8 text-xs" />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label>{t("admin.item_properties")}</Label>
-              <Input value={formData.properties} onChange={e => setFormData({...formData, properties: e.target.value})} placeholder="Finesse, Light, Heavy..." />
+              <Input value={formData.properties} onChange={e => setFormData({...formData, properties: e.target.value})} placeholder={t("admin.properties_placeholder")} />
             </div>
 
             {/* Special Actions Constructor */}
