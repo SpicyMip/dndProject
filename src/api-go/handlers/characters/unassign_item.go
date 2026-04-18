@@ -8,11 +8,11 @@ import (
 	"github.com/spicymip/codex-arcanum/models"
 )
 
-// UnassignItem returns an item to the global vault
+// UnassignItem removes an item instance from a character.
 func UnassignItem(c *gin.Context) {
 	role, _ := c.Get("user_role")
 	if role != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Only admins can unassign items"})
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only admins can remove items from characters"})
 		return
 	}
 
@@ -23,12 +23,13 @@ func UnassignItem(c *gin.Context) {
 		return
 	}
 
-	item.CharacterID = nil
-	item.IsEquipped = false
-	if err := handlers.DB.Save(&item).Error; err != nil {
+	// If it's a character instance, we just delete it.
+	// If it were a global item (character_id == null), we wouldn't delete it via this endpoint,
+	// but this endpoint is intended for items currently held by characters.
+	if err := handlers.DB.Delete(&item).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "unassigned", "id": itemId})
+	c.JSON(http.StatusOK, gin.H{"status": "removed", "id": itemId})
 }

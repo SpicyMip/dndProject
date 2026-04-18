@@ -18,7 +18,7 @@ func GetMyCharacters(c *gin.Context) {
 	
 	// Filtramos por OwnerID y que estén activos (Soft Delete)
 	// IS NOT FALSE para cubrir registros antiguos que podrían ser NULL
-	if err := handlers.DB.Where("owner_id = ? AND is_active IS NOT FALSE", userID).Preload("PersonalItems").Find(&chars).Error; err != nil {
+	if err := handlers.DB.Where("owner_id = ? AND is_active IS NOT FALSE", userID).Preload("PersonalItems.Template").Find(&chars).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

@@ -1,13 +1,32 @@
 "use client"
 
 import React from "react"
-import { Coins, Package, Plus, Trash2, Sword, Shield as ShieldIcon, FlaskConical, Wrench, Sparkles, Box, Check, Pencil, HardHat, Gem } from "lucide-react"
+import { Coins, Package, Sword, Shield as ShieldIcon, FlaskConical, Wrench, Sparkles, Box, HardHat, Gem, Zap } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useParty, type Character, type InventoryItem } from "@/lib/party-context"
 import { useTranslation } from "@/lib/language-context"
 import { cn } from "@/lib/utils"
+
+const categoryIcons: Record<string, any> = {
+  Weapon: Sword,
+  Shield: ShieldIcon,
+  Armor: ShieldIcon,
+  Headwear: HardHat,
+  Trinket: Gem,
+  Consumable: FlaskConical,
+  Tool: Wrench,
+  "Magic Item": Sparkles,
+  Misc: Box,
+}
+
+const rarityColors: Record<string, string> = {
+  Common: "text-muted-foreground",
+  Uncommon: "text-emerald-400",
+  Rare: "text-blue-400",
+  "Very Rare": "text-purple-400",
+  Legendary: "text-amber-400",
+}
 
 export function ConsolidatedInventoryPanel() {
   const { party } = useParty()
@@ -16,7 +35,7 @@ export function ConsolidatedInventoryPanel() {
   const totalPartyGold = party.reduce((sum, char) => sum + char.gold, 0)
 
   const allPersonalItems = party.flatMap((char) =>
-    char.personalItems.map((item) => ({
+    (char.personalItems || []).map((item) => ({
       ...item,
       ownerName: char.name,
       ownerId: char.id,
@@ -62,10 +81,10 @@ export function ConsolidatedInventoryPanel() {
           <Package className="h-4 w-4 text-muted-foreground" />
           {t("party.possession")}
         </h4>
-        <div className="rounded-md border border-border divide-y divide-border max-h-64 overflow-y-auto">
+        <div className="rounded-md border border-border divide-y divide-border max-h-[400px] overflow-y-auto arcane-scrollbar">
           {allPersonalItems.length === 0 ? (
-            <div className="px-3 py-4 text-center text-sm text-muted-foreground">
-              No personal items across party
+            <div className="px-3 py-4 text-center text-sm text-muted-foreground italic opacity-40">
+              No items across party
             </div>
           ) : (
             allPersonalItems.map((item) => (
@@ -73,13 +92,15 @@ export function ConsolidatedInventoryPanel() {
                 key={`${item.ownerId}-${item.id}`}
                 className="flex items-center justify-between px-3 py-2 text-sm"
               >
-                <div className="flex flex-col">
-                  <span className="font-serif text-foreground">{item.name}</span>
-                  <span className="font-mono text-[10px] text-muted-foreground">
+                <div className="flex flex-col min-w-0 flex-1">
+                  <span className={cn("font-serif font-medium truncate", rarityColors[item.template?.rarity])}>
+                    {item.template?.name || "Unknown Item"}
+                  </span>
+                  <span className="font-mono text-[9px] text-muted-foreground uppercase opacity-60">
                     {item.ownerName}
                   </span>
                 </div>
-                <span className="font-mono text-xs text-muted-foreground">
+                <span className="font-mono text-xs text-muted-foreground ml-2">
                   x{item.quantity}
                 </span>
               </div>
@@ -91,30 +112,9 @@ export function ConsolidatedInventoryPanel() {
   )
 }
 
-const categoryIcons: Record<string, any> = {
-  Weapon: Sword,
-  Shield: ShieldIcon,
-  Armor: ShieldIcon,
-  Headwear: HardHat,
-  Trinket: Gem,
-  Consumable: FlaskConical,
-  Tool: Wrench,
-  "Magic Item": Sparkles,
-  Misc: Box,
-}
-
-const rarityColors: Record<string, string> = {
-  Common: "text-muted-foreground",
-  Uncommon: "text-green-400",
-  Rare: "text-blue-400",
-  "Very Rare": "text-purple-400",
-  Legendary: "text-amber-400",
-}
-
 export function PlayerInventoryPanel({ character }: { character: Character }) {
-  const { updatePersonalItem, addPersonalItem, deletePersonalItem, userRole } = useParty()
+  const { updatePersonalItem, useItem, userRole } = useParty()
   const { t } = useTranslation()
-  const isDM = userRole === "DM"
 
   const parseSpecialActions = (actionsStr?: string) => {
     try {
@@ -122,50 +122,33 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
     } catch { return [] }
   }
 
-  const toggleEquip = (item: any) => {
+  const toggleEquip = (item: InventoryItem) => {
     if (item.isEquipped) {
       updatePersonalItem(character.id, item.id, { isEquipped: false })
       return
     }
 
-    // Check limits for equipping
-    const equipped = character.personalItems.filter(i => i.isEquipped)
+    const template = item.template
+    if (!template) return
+
+    // Check limits
+    const equipped = (character.personalItems || []).filter(i => i.isEquipped)
     
-    if (item.category === "Weapon" || item.category === "Shield") {
-      const hands = equipped.filter(i => i.category === "Weapon" || i.category === "Shield").length
+    if (template.category === "Weapon" || template.category === "Shield") {
+      const hands = equipped.filter(i => i.template?.category === "Weapon" || i.template?.category === "Shield").length
       if (hands >= 2) {
         toast.error("Your hands are full! (Max 2)")
         return
       }
-    } else if (item.category === "Armor") {
-      const armor = equipped.filter(i => i.category === "Armor").length
+    } else if (template.category === "Armor") {
+      const armor = equipped.filter(i => i.template?.category === "Armor").length
       if (armor >= 1) {
         toast.error("Already wearing armor! (Max 1)")
-        return
-      }
-    } else if (item.category === "Headwear") {
-      const head = equipped.filter(i => i.category === "Headwear").length
-      if (head >= 1) {
-        toast.error("Head slot occupied! (Max 1)")
-        return
-      }
-    } else if (item.category === "Trinket") {
-      const trinkets = equipped.filter(i => i.category === "Trinket").length
-      if (trinkets >= 5) {
-        toast.error("Too many trinkets! (Max 5)")
         return
       }
     }
 
     updatePersonalItem(character.id, item.id, { isEquipped: true })
-  }
-
-  const useItem = (item: any) => {
-    if (item.quantity > 1) {
-      updatePersonalItem(character.id, item.id, { quantity: item.quantity - 1 })
-    } else {
-      deletePersonalItem(character.id, item.id)
-    }
   }
 
   return (
@@ -177,13 +160,14 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
         </h4>
       </div>
       <div className="space-y-2">
-        {character.personalItems.length === 0 ? (
+        {(!character.personalItems || character.personalItems.length === 0) ? (
           <div className="px-3 py-8 text-center border border-dashed rounded-md opacity-40">
-            <p className="text-xs font-mono">Empty pockets...</p>
+            <p className="text-xs font-mono">{t("party.empty_inventory")}</p>
           </div>
         ) : (
           character.personalItems.map((item) => {
-            const Icon = categoryIcons[item.category] || Box
+            const template = item.template || { name: "Unknown Item", category: "Misc", rarity: "Common" }
+            const Icon = categoryIcons[template.category] || Box
 
             return (
               <div
@@ -203,8 +187,8 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={cn("font-serif text-sm font-medium truncate", rarityColors[item.rarity])}>
-                          {item.name}
+                        <span className={cn("font-serif text-sm font-medium truncate", rarityColors[template.rarity])}>
+                          {template.name}
                         </span>
                         {item.isEquipped && (
                           <span className="text-[8px] font-mono bg-primary/20 text-primary px-1.5 py-0.5 rounded uppercase font-bold">
@@ -212,36 +196,36 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                           </span>
                         )}
                       </div>
-                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
+                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 items-center mt-1">
                         <p className="text-[10px] text-muted-foreground font-mono truncate">
-                          {item.properties || t(`admin.categories.${item.category}`)}
+                          {template.properties || t(`admin.categories.${template.category}`)}
                         </p>
-                        {item.damage && (
-                          <span className="text-[10px] font-bold text-red-400/80 font-mono">
-                            🗡️ {item.damage} {item.damageType}
+                        {template.damage && (
+                          <span className="text-[10px] font-bold text-red-400/80 font-mono flex items-center gap-0.5">
+                            <Sword className="h-2.5 w-2.5" /> {template.damage} {template.damageType}
                           </span>
                         )}
-                        {item.acBonus && (
-                          <span className="text-[10px] font-bold text-blue-400/80 font-mono">
-                            🛡️ +{item.acBonus} AC
+                        {template.acBonus > 0 && (
+                          <span className="text-[10px] font-bold text-blue-400/80 font-mono flex items-center gap-0.5">
+                            <ShieldIcon className="h-2.5 w-2.5" /> +{template.acBonus} AC
                           </span>
                         )}
                         {item.charges !== undefined && item.charges > 0 && (
-                          <span className="text-[10px] font-bold text-amber-400/80 font-mono">
-                            ✨ {item.charges} {t("party.charges")}
+                          <span className="text-[10px] font-bold text-amber-400/80 font-mono flex items-center gap-0.5">
+                            <Zap className="h-2.5 w-2.5" /> {item.charges}
                           </span>
                         )}
                       </div>
                       
                       {/* Special Actions */}
-                      {parseSpecialActions(item.specialActions).length > 0 && (
+                      {parseSpecialActions(template.specialActions).length > 0 && (
                         <div className="mt-2 space-y-1">
-                          {parseSpecialActions(item.specialActions).map((action: any, idx: number) => (
+                          {parseSpecialActions(template.specialActions).map((action: any, idx: number) => (
                             <div key={idx} className="p-1.5 rounded bg-primary/5 border border-primary/10">
                               <p className="text-[10px] font-bold text-primary flex items-center gap-1 uppercase tracking-tighter">
                                 <Sparkles className="h-2.5 w-2.5" /> {action.name}
                               </p>
-                              <p className="text-[9px] text-muted-foreground leading-tight italic">
+                              <p className="text-[9px] text-muted-foreground leading-tight italic line-clamp-1">
                                 {action.desc}
                               </p>
                             </div>
@@ -258,7 +242,7 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                     </div>
                     
                     <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {item.isEquippable && (
+                      {template.isEquippable && (
                         <Button
                           variant="ghost"
                           size="icon"
@@ -269,15 +253,15 @@ export function PlayerInventoryPanel({ character }: { character: Character }) {
                           <ShieldIcon className="h-3.5 w-3.5" />
                         </Button>
                       )}
-                      {item.isUsable && (
+                      {(template.isUsable || template.category === "Consumable") && (
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => useItem(item)}
+                          onClick={() => useItem(item.id)} // Usar la función corregida del contexto
                           className="h-7 w-7 text-green-500"
                           title={t("party.use")}
                         >
-                          <Sparkles className="h-3.5 w-3.5" />
+                          <Zap className="h-3.5 w-3.5" />
                         </Button>
                       )}
                     </div>

@@ -5,15 +5,13 @@ import { api } from "./api"
 import { useAuth } from "./auth-context"
 import { toast } from "sonner"
 
-export interface InventoryItem {
+export interface ItemTemplate {
   id: number
   name: string
   description: string
-  quantity: number
-  category: "Weapon" | "Armor" | "Consumable" | "Tool" | "Magic Item" | "Misc"
+  category: "Weapon" | "Armor" | "Shield" | "Consumable" | "Tool" | "Magic Item" | "Misc"
   rarity: "Common" | "Uncommon" | "Rare" | "Very Rare" | "Legendary"
   isEquippable: boolean
-  isEquipped: boolean
   isUsable: boolean
   weight: number
   properties: string
@@ -21,8 +19,17 @@ export interface InventoryItem {
   damageType?: string
   acBonus?: number
   requirements?: string
-  charges?: number
-  specialActions?: string
+  charges: number
+  specialActions: string
+}
+
+export interface InventoryItem {
+  id: number
+  templateId: number
+  template: ItemTemplate
+  quantity: number
+  isEquipped: boolean
+  charges: number
 }
 
 export interface Character {
@@ -64,6 +71,7 @@ interface PartyContextType {
   deletePersonalItem: (characterId: number, itemId: number) => Promise<void>
   unassignItem: (itemId: number) => Promise<void>
   transferItem: (itemId: number, targetCharacterId: number) => Promise<void>
+  useItem: (itemId: number, manual?: boolean) => Promise<void>
 }
 
 const PartyContext = createContext<PartyContextType | undefined>(undefined)
@@ -214,6 +222,17 @@ export function PartyProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const useItem = async (itemId: number, manual: boolean = false) => {
+    try {
+      const res = await api.post<any>(`/characters/items/${itemId}/use?manual=${manual}`, {})
+      fetchData()
+      return res
+    } catch (error) {
+      toast.error("The item's magic failed")
+      return null
+    }
+  }
+
   return (
     <PartyContext.Provider value={{
       party: characters,
@@ -228,7 +247,8 @@ export function PartyProvider({ children }: { children: React.ReactNode }) {
       updatePersonalItem,
       deletePersonalItem,
       unassignItem,
-      transferItem
+      transferItem,
+      useItem
     }}>
       {children}
     </PartyContext.Provider>

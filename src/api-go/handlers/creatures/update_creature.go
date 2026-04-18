@@ -20,5 +20,7 @@ func UpdateCreature(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	handlers.BroadcastBestiaryUpdate()
 	c.JSON(http.StatusOK, gin.H{"status": "updated", "id": id})
 }

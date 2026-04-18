@@ -11,7 +11,7 @@ import (
 func GetCharacters(c *gin.Context) {
 	var chars []models.Character
 	// Using IS NOT FALSE handles both TRUE and NULL as active (fallback for old records)
-	if err := handlers.DB.Where("is_active IS NOT FALSE").Preload("PersonalItems").Find(&chars).Error; err != nil {
+	if err := handlers.DB.Where("is_active IS NOT FALSE").Preload("PersonalItems.Template").Find(&chars).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

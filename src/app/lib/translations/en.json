@@ -68,6 +68,12 @@
     "possession": "Character Possession",
     "inventory": "My Inventory",
     "hp": "Hit Points",
+    "hit_points": "Hit Points",
+    "ac": "Armor Class",
+    "initiative": "Initiative",
+    "speed": "Speed",
+    "ability_scores": "Ability Scores",
+    "inventory_actions": "Inventory & Actions",
     "gold": "Gold",
     "level": "Level",
     "status": "Status",
@@ -76,6 +82,19 @@
     "equip": "Equip",
     "unequip": "Unequip",
     "use": "Use",
+    "use_auto": "Arcane Roll (Auto)",
+    "use_manual": "Physical Roll (Manual)",
+    "hp_restored": "Healed {amount} HP",
+    "hp_updated": "Hit points updated",
+    "item_used_auto": "{name} used automatically",
+    "roll_dice": "Roll these dice:",
+    "result": "Final Result",
+    "invalid_range": "Invalid value for these dice ({min} - {max})",
+    "confirm_roll": "Confirm Roll",
+    "dice_num": "Dice Amount",
+    "dice_sides": "Die Type",
+    "dice_bonus": "Bonus",
+    "empty_inventory": "Empty pockets...",
     "empty_pockets": "Empty pockets...",
     "unassigned": "Unassigned items",
     "damage": "Damage",
@@ -141,6 +160,7 @@
   "admin": {
     "title": "Admin Codex Arcanum",
     "subtitle": "Campaign & world management",
+    "notices": "Notices",
     "bestiary": "Bestiary",
     "items": "Items",
     "lexicon": "Lexicon",
@@ -226,7 +246,7 @@
     "action_name": "Action Name",
     "action_desc": "Description"
   },
-  "archive": {
+  "profile": {
     "title": "My Archive",
     "subtitle": "Player Identity & Chronicles",
     "new_character": "New Character",
@@ -259,6 +279,10 @@
     },
     "alignments": {
       "Lawful Good": "Lawful Good", "Neutral Good": "Neutral Good", "Chaotic Good": "Chaotic Good", "Lawful Neutral": "Lawful Neutral", "True Neutral": "True Neutral", "Chaotic Neutral": "Chaotic Neutral", "Lawful Evil": "Lawful Evil", "Neutral Evil": "Neutral Evil", "Chaotic Evil": "Chaotic Evil"
+    }
+  }
+}
+Chaotic Evil"
     }
   }
 }

@@ -88,3 +88,9 @@ func WebSocketHandler(c *gin.Context) {
 func BroadcastNoticeUpdate() {
 	MainHub.broadcast <- []byte("notices_updated")
 }
+
+// BroadcastBestiaryUpdate envía una señal a todos los clientes para refrescar el bestiario
+func BroadcastBestiaryUpdate() {
+	MainHub.broadcast <- []byte("bestiary_updated")
+}
+

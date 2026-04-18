@@ -8,12 +8,12 @@ import (
 	"github.com/spicymip/codex-arcanum/models"
 )
 
-// GetGlobalItems returns items where character_id is NULL (The Library)
+// GetGlobalItems returns all item templates (The Library)
 func GetGlobalItems(c *gin.Context) {
-	var items []models.InventoryItem
-	if err := handlers.DB.Where("character_id IS NULL").Find(&items).Error; err != nil {
+	var templates []models.ItemTemplate
+	if err := handlers.DB.Order("name ASC").Find(&templates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"items": items})
+	c.JSON(http.StatusOK, gin.H{"items": templates})
 }

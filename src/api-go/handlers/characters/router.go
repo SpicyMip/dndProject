@@ -23,4 +23,5 @@ func RegisterRoutes(r *gin.RouterGroup) {
 	r.POST("/items/:itemId/bestow", BestowItem)
 	r.POST("/items/:itemId/unassign", UnassignItem)
 	r.POST("/items/:itemId/transfer", TransferItem)
+	r.POST("/items/:itemId/use", UseItem)
 }

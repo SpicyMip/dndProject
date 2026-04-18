@@ -68,6 +68,12 @@
     "possession": "Posesiones de los Personajes",
     "inventory": "Mi Inventario",
     "hp": "Puntos de Vida",
+    "hit_points": "Puntos de Vida",
+    "ac": "Clase de Armadura",
+    "initiative": "Iniciativa",
+    "speed": "Velocidad",
+    "ability_scores": "Atributos",
+    "inventory_actions": "Inventario y Acciones",
     "gold": "Oro",
     "level": "Nivel",
     "status": "Estado",
@@ -76,6 +82,19 @@
     "equip": "Equipar",
     "unequip": "Desequipar",
     "use": "Usar",
+    "use_auto": "Lanzamiento Arcano (Auto)",
+    "use_manual": "Tirada Física (Manual)",
+    "hp_restored": "Curaste {amount} PV",
+    "hp_updated": "Puntos de vida actualizados",
+    "item_used_auto": "{name} usado automáticamente",
+    "roll_dice": "Lanza estos dados:",
+    "result": "Resultado Final",
+    "invalid_range": "Valor inválido para estos dados ({min} - {max})",
+    "confirm_roll": "Confirmar Tirada",
+    "dice_num": "Cant. Dados",
+    "dice_sides": "Tipo Dado",
+    "dice_bonus": "Bono",
+    "empty_inventory": "Bolsillos vacíos...",
     "empty_pockets": "Bolsillos vacíos...",
     "unassigned": "Objetos sin asignar",
     "damage": "Daño",
@@ -141,6 +160,7 @@
   "admin": {
     "title": "Admin Codex Arcanum",
     "subtitle": "Gestión de campaña y mundo",
+    "notices": "Avisos",
     "bestiary": "Bestiario",
     "items": "Objetos",
     "lexicon": "Léxico",
@@ -226,7 +246,7 @@
     "action_name": "Nombre de la Acción",
     "action_desc": "Descripción"
   },
-  "archive": {
+  "profile": {
     "title": "Mi Archivo",
     "subtitle": "Identidad del Jugador y Crónicas",
     "new_character": "Nuevo Personaje",
@@ -259,6 +279,10 @@
     },
     "alignments": {
       "Lawful Good": "Legal Bueno", "Neutral Good": "Neutral Bueno", "Chaotic Good": "Caótico Bueno", "Lawful Neutral": "Legal Neutral", "True Neutral": "Neutral Auténtico", "Chaotic Neutral": "Caótico Neutral", "Lawful Evil": "Legal Malvado", "Neutral Evil": "Neutral Malvado", "Chaotic Evil": "Caótico Malvado"
+    }
+  }
+}
+ico Malvado"
     }
   }
 }

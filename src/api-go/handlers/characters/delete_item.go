@@ -9,16 +9,23 @@ import (
 )
 
 func DeleteCharacterItem(c *gin.Context) {
-	role, _ := c.Get("user_role")
-	if role != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Only archives high council can destroy items"})
+	itemId := c.Param("itemId")
+	
+	// Try to find if it's an instance
+	var instance models.InventoryItem
+	if err := handlers.DB.First(&instance, itemId).Error; err == nil {
+		handlers.DB.Delete(&instance)
+		c.JSON(http.StatusOK, gin.H{"status": "instance deleted"})
 		return
 	}
 
-	itemID := c.Param("itemId")
-	if err := handlers.DB.Delete(&models.InventoryItem{}, "id = ?", itemID).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// Try to find if it's a template
+	var template models.ItemTemplate
+	if err := handlers.DB.First(&template, itemId).Error; err == nil {
+		handlers.DB.Delete(&template)
+		c.JSON(http.StatusOK, gin.H{"status": "template deleted"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "deleted", "itemId": itemID})
+
+	c.JSON(http.StatusNotFound, gin.H{"error": "Item or Template not found"})
 }

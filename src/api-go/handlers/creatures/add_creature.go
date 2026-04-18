@@ -19,5 +19,7 @@ func AddCreature(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	handlers.BroadcastBestiaryUpdate()
 	c.JSON(http.StatusCreated, creature)
 }

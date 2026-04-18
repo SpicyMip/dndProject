@@ -48,12 +48,20 @@ export function BestiarySection() {
   const [playerNote, setPlayerNote] = useState("")
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const fetchData = () => {
     apiFetch<{ creatures: Creature[] }>("/bestiary")
       .then((data) => {
         setCreatures(data.creatures.filter(c => c.isEncountered))
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    fetchData()
+    const wsUrl = process.env.NEXT_PUBLIC_API_URL?.replace("http", "ws") + "/ws"
+    const socket = new WebSocket(wsUrl)
+    socket.onmessage = (e) => { if (e.data === "bestiary_updated") fetchData() }
+    return () => socket.close()
   }, [])
 
   const fetchNote = (creatureId: string) => {

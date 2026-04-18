@@ -28,5 +28,9 @@ func AddCharacterItem(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Cargar la plantilla antes de devolver la respuesta
+	handlers.DB.Preload("Template").First(&item, item.ID)
+	
 	c.JSON(http.StatusCreated, item)
 }

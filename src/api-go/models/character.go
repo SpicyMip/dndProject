@@ -38,26 +38,32 @@ type Character struct {
 	PersonalItems []InventoryItem `json:"personalItems" gorm:"foreignKey:CharacterID"`
 }
 
-// InventoryItem representa un objeto en el inventario de un personaje
+// ItemTemplate representa la definición base de un objeto (Catálogo maestro)
+type ItemTemplate struct {
+	ID             int     `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name           string  `json:"name" gorm:"not null"`
+	Description    string  `json:"description"`
+	Category       string  `json:"category" gorm:"default:'Misc'"`
+	Rarity         string  `json:"rarity" gorm:"default:'Common'"`
+	IsEquippable   bool    `json:"isEquippable" gorm:"default:false"`
+	IsUsable       bool    `json:"isUsable" gorm:"default:false"`
+	Weight         float64 `json:"weight" gorm:"default:0"`
+	Properties     string  `json:"properties"`
+	Damage         string  `json:"damage"`
+	DamageType     string  `json:"damageType"`
+	ACBonus        int     `json:"acBonus" gorm:"default:0"`
+	Requirements   string  `json:"requirements"`
+	Charges        int     `json:"charges" gorm:"default:0"`
+	SpecialActions string  `json:"specialActions" gorm:"type:jsonb;default:'[]'"`
+}
+
+// InventoryItem representa la instancia de un objeto que posee un personaje
 type InventoryItem struct {
-	ID           int     `json:"id" gorm:"primaryKey;autoIncrement"`
-	CharacterID  *int    `json:"characterId"`
-	Name         string  `json:"name"`
-	Description  string  `json:"description"`
-	Quantity     int     `json:"quantity"`
-	Category     string  `json:"category"` // "Weapon", "Armor", "Consumable", "Tool", "Magic Item", "Misc"
-	Rarity       string  `json:"rarity"`   // "Common", "Uncommon", "Rare", "Very Rare", "Legendary"
-	IsEquippable bool    `json:"isEquippable"`
-	IsEquipped   bool    `json:"isEquipped"`
-	IsUsable     bool    `json:"isUsable"`
-	Weight       float64 `json:"weight"`
-	Properties   string  `json:"properties"` // Ej: "Versatile", "Finesse"
-	
-	// Technical Stats
-	Damage         string `json:"damage"`         // Ej: "1d8"
-	DamageType     string `json:"damageType"`     // Ej: "Slashing"
-	ACBonus        int    `json:"acBonus"`        // Ej: 2 para escudos o armaduras
-	Requirements   string `json:"requirements"`   // Ej: "Str 13"
-	Charges        int    `json:"charges"`        // Para objetos con usos limitados
-	SpecialActions string `json:"specialActions"` // JSON string con array de acciones [{name, desc, type}]
+	ID          int          `json:"id" gorm:"primaryKey;autoIncrement"`
+	CharacterID *int         `json:"characterId" gorm:"column:character_id"`
+	TemplateID  int          `json:"templateId" gorm:"column:template_id;not null"`
+	Template    ItemTemplate `json:"template" gorm:"foreignKey:template_id;references:id"`
+	Quantity    int          `json:"quantity" gorm:"column:quantity;default:1"`
+	IsEquipped  bool         `json:"isEquipped" gorm:"column:is_equipped;default:false"`
+	Charges     int          `json:"charges" gorm:"column:charges"`
 }
