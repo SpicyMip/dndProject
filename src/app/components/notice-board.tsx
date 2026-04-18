@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { ArcaneText } from "./arcane-text"
 import { apiFetch } from "@/lib/api"
 import { useTranslation } from "@/lib/language-context"
@@ -63,6 +64,7 @@ function getNonOverlappingPosition(placedPositions: {x: number, y: number}[], co
 }
 
 function ArcaneFragment({ symbol, lexiconData, onUpdate }: { symbol: string, lexiconData: any[], onUpdate: () => void }) {
+  const { t } = useTranslation()
   const [isEditing, setIsEditing] = useState(false)
   const [val, setVal] = useState("")
   const entry = lexiconData.find(e => e.symbolSequence === symbol)
@@ -85,9 +87,18 @@ function ArcaneFragment({ symbol, lexiconData, onUpdate }: { symbol: string, lex
 
   return (
     <span className="inline-flex flex-col items-center align-middle mx-1 relative group">
-      <button onClick={() => setIsEditing(!isEditing)} className={cn("px-2 py-0.5 rounded border font-mono font-bold tracking-tighter transition-all duration-500", "bg-primary/10 border-primary/30 text-primary arcane-flicker shadow-[0_0_15px_rgba(var(--primary),0.2)]", "hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(var(--primary),0.4)]")}><ArcaneText>{symbol}</ArcaneText></button>
+      <Popover open={isEditing} onOpenChange={setIsEditing}>
+        <PopoverTrigger asChild>
+          <button className={cn("px-2 py-0.5 rounded border font-mono font-bold tracking-tighter transition-all duration-500", "bg-primary/10 border-primary/30 text-primary arcane-flicker shadow-[0_0_15px_rgba(var(--primary),0.2)]", "hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(var(--primary),0.4)]")}>{symbol}</button>
+        </PopoverTrigger>
+        <PopoverContent side="top" className="w-auto p-2 bg-[#1a140f] border-primary/40 shadow-2xl">
+          <form onSubmit={handleSave} className="flex gap-2 items-center min-w-[200px]">
+            <Input autoFocus className="h-7 text-[10px] bg-black/40 border-primary/20 text-primary font-serif italic" value={val} onChange={e => setVal(e.target.value)} placeholder={t("notices.translate_placeholder")} />
+            <button type="submit" className="p-1 hover:text-primary transition-colors"><Save className="h-4 w-4 text-primary" /></button>
+          </form>
+        </PopoverContent>
+      </Popover>
       <span className="text-[10px] font-serif italic text-primary/60 h-4 mt-0.5 leading-none transition-all group-hover:text-primary">{entry?.interpretation || "???"}</span>
-      <AnimatePresence>{isEditing && (<motion.form initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} onSubmit={handleSave} className="absolute bottom-full mb-2 z-50 bg-[#1a140f] border border-primary/40 p-2 rounded-lg shadow-2xl flex gap-2 items-center min-w-[200px]"><Input autoFocus className="h-7 text-[10px] bg-black/40 border-primary/20 text-primary font-serif italic" value={val} onChange={e => setVal(e.target.value)} placeholder={t("notices.translate_placeholder")} /><button type="submit" className="p-1 hover:text-primary transition-colors"><Save className="h-4 w-4" /></button></motion.form>)}</AnimatePresence>
     </span>
   )
 }
@@ -129,25 +140,46 @@ export function NoticeBoard() {
       })
       setLexiconData(combinedLexicon)
       
-      // Obtener dimensiones reales del contenedor o usar defaults
-      const boardW = containerRef.current?.offsetWidth || 800;
-      const boardH = containerRef.current?.offsetHeight || 600;
-      const placed: {x: number, y: number}[] = [];
-
-      const activeNotices = noticesData.notices
-        .filter((n) => n.active)
-        .map((n) => {
+      setNotices(prevNotices => {
+        const boardW = containerRef.current?.offsetWidth || 800;
+        const boardH = containerRef.current?.offsetHeight || 600;
+        const activeData = noticesData.notices.filter(n => n.active);
+        
+        // Mantener las posiciones de los ya existentes para evitar saltos
+        const placed = prevNotices.map(n => n.position);
+        
+        const updated = activeData.map(n => {
+          const existing = prevNotices.find(p => p.id === n.id);
+          if (existing) {
+            return { ...n, position: existing.position, rotation: existing.rotation };
+          }
+          
           const pos = getNonOverlappingPosition(placed, boardW, boardH);
           placed.push(pos);
           return {
             ...n,
             position: pos,
-            rotation: Math.floor(Math.random() * 16) - 8, // Rotación más suave (-8 a 8)
+            rotation: Math.floor(Math.random() * 16) - 8,
           };
-        })
-      setNotices(activeNotices)
-      setZIndices(Object.fromEntries(activeNotices.map((n, i) => [n.id, i])))
-      setTopZ(activeNotices.length)
+        });
+
+        // Actualizar Z-indices solo para los nuevos, sin resetear los viejos
+        setZIndices(prevZ => {
+          const newZ = { ...prevZ };
+          let maxZ = Object.values(prevZ).length > 0 ? Math.max(...Object.values(prevZ)) : 0;
+          
+          updated.forEach(n => {
+            if (newZ[n.id] === undefined) {
+              maxZ++;
+              newZ[n.id] = maxZ;
+            }
+          });
+          setTopZ(maxZ);
+          return newZ;
+        });
+
+        return updated;
+      });
     } catch (err) { console.error(err) }
   }
 
